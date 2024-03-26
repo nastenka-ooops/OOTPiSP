@@ -53,16 +53,11 @@ public class Main extends Application {
 
         MenuBar menuBar = new MenuBar(menu);
 
-        ArrayList<Image> heroImage = new ArrayList<>();
-        heroImage.add(new Image(new FileInputStream("src/main/java/com/example/lapa12/images/empty.jpg"), 1, 1, true, true));
-        ArrayList<Node> hero = new ArrayList<>();
-        hero.add(new ImageView(heroImage.get(0)));
-
         Button btnSerialize = new Button("Serialize");
         Button btnDeserialize = new Button("Deserialize");
 
         HBox controls = new HBox(menuBar,btnSerialize, btnDeserialize);
-        Group root = new Group(controls,hero.get(0));
+        Group root = new Group(controls);
         Scene scene = new Scene(root, W, H);
 
         stage.setTitle("lapa1,2");
@@ -80,16 +75,12 @@ public class Main extends Application {
 
         btnDeserialize.setOnAction(actionEvent -> {
             try {
-                //characters.clear();
-                //hero.clear();
                 characters.addAll(logic.deserialize());
-                //root.getChildren().clear();
                 for (Hilichurl character :
                         characters) {
-                    heroImage.add(new Image(new FileInputStream(character.getImagePath()),150, 140, true, true));
-                    hero.add(new ImageView(heroImage.get(heroImage.size()-1)));
-                    root.getChildren().add(hero.get(hero.size()-1));
-                    movement.keyPress(scene, hero.get(hero.size()-1), character.getX(), character.getY());
+                    Node currentImage = new ImageView(new Image(new FileInputStream(character.getImagePath()),150,140, true, true));
+                    root.getChildren().add(currentImage);
+                    movement.keyPress(scene, currentImage, character.getX(), character.getY());
                 }
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -101,12 +92,9 @@ public class Main extends Application {
             Hilichurl currentCharacter;
             try {
                 currentCharacter =  factories[index].create();
-                heroImage.add(currentCharacter.getImage());
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
-
-            hero.add(new ImageView(heroImage.get(heroImage.size()-1)));
 
             scene.setOnMouseClicked(mouseEvent -> {
                     double x = mouseEvent.getX();
@@ -116,9 +104,10 @@ public class Main extends Application {
                     currentCharacter.setY(y);
 
                     try{
-                        root.getChildren().add(hero.get(hero.size()-1));
+                        Node currentImage = new ImageView(new Image(new FileInputStream(currentCharacter.getImagePath()),150,140, true, true));
+                        root.getChildren().add(currentImage);
                         characters.add(currentCharacter);
-                        movement.keyPress(scene, hero.get(hero.size()-1), x, y);
+                        movement.keyPress(scene,currentImage, currentCharacter.getX(), currentCharacter.getY());
                     } catch (Exception exception){
                         System.out.println("низя так");
                     }

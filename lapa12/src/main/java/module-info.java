@@ -1,8 +1,7 @@
-module com.example.lapa12 {
+module lapa12 {
     requires javafx.controls;
     requires javafx.fxml;
-    requires com.fasterxml.jackson.core;
-
+    requires com.fasterxml.jackson.databind;
 
     opens com.example.lapa12 to javafx.fxml;
     exports com.example.lapa12;

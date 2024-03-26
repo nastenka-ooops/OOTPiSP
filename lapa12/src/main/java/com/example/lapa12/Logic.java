@@ -2,6 +2,7 @@ package com.example.lapa12;
 
 import com.example.lapa12.factories.*;
 import com.example.lapa12.heros.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,7 +21,7 @@ public class Logic {
     }
 
     public void JSONSerialize(){
-        ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
     }
 
     public ArrayList<Hilichurl> deserialize() throws IOException, ClassNotFoundException {
@@ -46,7 +47,7 @@ public class Logic {
 
     }
 
-    public Factory[] createHilichurlsFactories(Factory[] factories) throws FileNotFoundException {
+    public void createHilichurlsFactories(Factory[] factories) throws FileNotFoundException {
         factories[0] = new HilichurlFactory();
         factories[1] = new MitachurlFactory();
         factories[2] = new HilichurlGrenadierFactory();
@@ -54,8 +55,6 @@ public class Logic {
         factories[4] = new HilichurlFighterFactory();
         factories[5] = new LawachurlFactory();
         factories[6] = new HIlichurlGuardFactory();
-
-        return factories;
 
     }
 
