@@ -1,6 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
@@ -8,8 +9,13 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 public class Mitachurl extends Hilichurl implements Serializable {
+    @JsonProperty("axe")
     private Element axe;
+    @JsonProperty("shield")
     private Element shield;
+
+    public Mitachurl() {
+    }
 
     public Mitachurl(int level, Element axe, Element shield) throws FileNotFoundException {
         super(level);
@@ -23,7 +29,7 @@ public class Mitachurl extends Hilichurl implements Serializable {
     public String printInfo(){
         return super.printInfo() + " with " + this.getAxe() + " axe and " + this.getShield()+ " shield";
     }
-
+    @JsonProperty("axe")
     public Element getAxe() {
         return axe;
     }
@@ -31,7 +37,7 @@ public class Mitachurl extends Hilichurl implements Serializable {
     public void setAxe(Element axe) {
         this.axe = axe;
     }
-
+    @JsonProperty("shield")
     public Element getShield() {
         return shield;
     }

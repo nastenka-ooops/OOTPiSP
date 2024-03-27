@@ -1,20 +1,56 @@
 package com.example.lapa12.heros;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
+@JsonTypeInfo(/*visible = true,*/ use = JsonTypeInfo.Id.NAME, property="@type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value=Hilichurl.class, name="Hilichurl"),
+        @JsonSubTypes.Type(value=HilichurlFighter.class, name="HilichurlFighter"),
+        @JsonSubTypes.Type(value=HilichurlGrenadier.class, name="HilichurlGrenadier"),
+        @JsonSubTypes.Type(value=HilichurlGuard.class, name="HilichurlGuard"),
+        @JsonSubTypes.Type(value=HilichurlShooter.class, name="HilichurlShooter"),
+        @JsonSubTypes.Type(value=Lawachurl.class, name="Lawachurl"),
+        @JsonSubTypes.Type(value=Mitachurl.class, name="Mitachurl")
+})
 public class Hilichurl implements Serializable {
     private int level;
     private int XP;
-    final int maxXP;
+    int maxXP;
     private String name;
+    @JsonIgnore
     transient private Image image;
     private String imagePath;
     private double x;
     private double y;
+
+    public Hilichurl(int level) throws FileNotFoundException {
+        this.level = level;
+        if (level <= 0) {
+            this.maxXP = 100;
+        } else if (level > 0 && level < 30) {
+            this.maxXP = 1000;
+        } else if (level >= 30 && level < 70) {
+            this.maxXP = 5000;
+        } else if (level >= 70 && level < 100) {
+            this.maxXP = 10000;
+        } else {
+            this.maxXP = 15000;
+        }
+        this.XP= this.maxXP;
+        this.name = "Hilichurl";
+        this.imagePath = "src/main/java/com/example/lapa12/images/"+ this.name +".jpg";
+        this.image = new Image(new FileInputStream(imagePath), 150, 140, true, true);
+    }
+
+    public Hilichurl() {
+    }
 
     public String getImagePath() {
         return imagePath;
@@ -38,25 +74,6 @@ public class Hilichurl implements Serializable {
 
     public void setY(double y) {
         this.y = y;
-    }
-
-    public Hilichurl(int level) throws FileNotFoundException {
-        this.level = level;
-        if (level <= 0) {
-            this.maxXP = 100;
-        } else if (level > 0 && level < 30) {
-            this.maxXP = 1000;
-        } else if (level >= 30 && level < 70) {
-            this.maxXP = 5000;
-        } else if (level >= 70 && level < 100) {
-            this.maxXP = 10000;
-        } else {
-            this.maxXP = 15000;
-        }
-        this.XP= this.maxXP;
-        this.name = "Hilichurl";
-        this.imagePath = "src/main/java/com/example/lapa12/images/"+ this.name +".jpg";
-        this.image = new Image(new FileInputStream(imagePath), 150, 140, true, true);
     }
 
     public String printInfo() {

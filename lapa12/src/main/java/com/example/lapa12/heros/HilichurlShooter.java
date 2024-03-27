@@ -10,6 +10,9 @@ import java.io.Serializable;
 public class HilichurlShooter extends Hilichurl implements Serializable {
     private Element crossbow;
 
+    public HilichurlShooter() {
+    }
+
     public HilichurlShooter(int level, Element crossbow) throws FileNotFoundException {
         super(level);
         this.crossbow = crossbow;

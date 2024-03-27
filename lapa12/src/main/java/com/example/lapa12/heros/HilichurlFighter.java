@@ -10,6 +10,9 @@ import java.io.Serializable;
 public class HilichurlFighter extends Hilichurl implements Serializable {
     private Element club;
 
+    public HilichurlFighter() {
+    }
+
     @Override
     public String
     toString() {

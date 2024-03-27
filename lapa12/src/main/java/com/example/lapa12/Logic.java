@@ -8,11 +8,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Logic {
-    private static final File serializeFile = new File("save.txt");
-    public void serialize(ArrayList<Hilichurl> characters) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(serializeFile);
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final File BINSerializeFile = new File("ser.bin");
+    private static final File JSONSerializeFile = new File("ser.json");
+    public void BINSerialize(List<Hilichurl> characters) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(BINSerializeFile);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
         objectOutputStream.writeObject(characters);
@@ -20,12 +23,12 @@ public class Logic {
         objectOutputStream.close();
     }
 
-    public void JSONSerialize(){
-        ObjectMapper mapper = new ObjectMapper();
+    public void JSONSerialize(Hilichurls characters) throws IOException {
+        mapper.writeValue(JSONSerializeFile, characters);
     }
 
-    public ArrayList<Hilichurl> deserialize() throws IOException, ClassNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream(serializeFile);
+    public ArrayList<Hilichurl> BINDeserialize() throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(BINSerializeFile);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
         ArrayList<Hilichurl> characters = (ArrayList<Hilichurl>) objectInputStream.readObject();
@@ -33,6 +36,10 @@ public class Logic {
         objectInputStream.close();
         System.out.println("Well done");
         return characters;
+    }
+
+    public Hilichurls JSONDeserialize() throws IOException {
+        return mapper.readValue(JSONSerializeFile, Hilichurls.class);
     }
     public Hilichurl[] createHilichurls(Hilichurl[] hilichurls) throws FileNotFoundException {
         hilichurls[0] = new Hilichurl(20);
@@ -47,7 +54,7 @@ public class Logic {
 
     }
 
-    public void createHilichurlsFactories(Factory[] factories) throws FileNotFoundException {
+    public void createHilichurlsFactories(Factory[] factories){
         factories[0] = new HilichurlFactory();
         factories[1] = new MitachurlFactory();
         factories[2] = new HilichurlGrenadierFactory();

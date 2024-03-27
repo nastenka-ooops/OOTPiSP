@@ -10,6 +10,9 @@ import java.io.Serializable;
 public class HilichurlGrenadier extends Hilichurl implements Serializable {
     private Element slime;
 
+    public HilichurlGrenadier() {
+    }
+
     public HilichurlGrenadier(int level, Element slime) throws FileNotFoundException {
         super(level);
         this.slime = slime;

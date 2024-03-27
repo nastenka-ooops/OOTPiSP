@@ -10,6 +10,9 @@ import java.io.Serializable;
 public class HilichurlGuard extends HilichurlFighter implements Serializable {
     private Element shield;
 
+    public HilichurlGuard() {
+    }
+
     public HilichurlGuard(int level, Element club, Element shield) throws FileNotFoundException {
         super(level, club);
         this.shield = shield;
