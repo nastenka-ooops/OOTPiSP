@@ -25,6 +25,7 @@ public class Logic {
 
     public void JSONSerialize(Hilichurls characters) throws IOException {
         mapper.writeValue(JSONSerializeFile, characters);
+        System.out.println("Well done");
     }
 
     public ArrayList<Hilichurl> BINDeserialize() throws IOException, ClassNotFoundException {
@@ -39,6 +40,7 @@ public class Logic {
     }
 
     public Hilichurls JSONDeserialize() throws IOException {
+        System.out.println("Well done");
         return mapper.readValue(JSONSerializeFile, Hilichurls.class);
     }
     public Hilichurl[] createHilichurls(Hilichurl[] hilichurls) throws FileNotFoundException {

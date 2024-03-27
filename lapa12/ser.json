@@ -1,34 +1,16 @@
 {
   "hilichurls": [
     {
-      "@type": "HilichurlGrenadier",
-      "level": 99,
-      "name": "Grenadier",
-      "imagePath": "src/main/java/com/example/lapa12/images/Grenadier.jpg",
-      "x": 111.66666666666667,
-      "y": 359.3333333333333,
-      "slime": "HYDRO",
-      "xp": 10000
-    },
-    {
-      "@type": "HilichurlGrenadier",
-      "level": 99,
-      "name": "Grenadier",
-      "imagePath": "src/main/java/com/example/lapa12/images/Grenadier.jpg",
-      "x": 506.6666666666667,
-      "y": 166.0,
-      "slime": "HYDRO",
-      "xp": 10000
-    },
-    {
-      "@type": "HilichurlGrenadier",
-      "level": 99,
-      "name": "Grenadier",
-      "imagePath": "src/main/java/com/example/lapa12/images/Grenadier.jpg",
-      "x": 507.0,
-      "y": 486.3333333333333,
-      "slime": "HYDRO",
-      "xp": 10000
+      "@type": "Lawachurl",
+      "level": 8010,
+      "name": "Lawachurl",
+      "imagePath": "src/main/java/com/example/lapa12/images/Lawachurl.jpg",
+      "x": 263.0,
+      "y": 312.3333333333333,
+      "shell": "DENDRO",
+      "xp": 10000,
+      "axe": "DENDRO",
+      "shield": "DENDRO"
     }
   ]
 }

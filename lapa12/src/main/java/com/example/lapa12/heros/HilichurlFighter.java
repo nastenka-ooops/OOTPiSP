@@ -33,6 +33,10 @@ public class HilichurlFighter extends Hilichurl implements Serializable {
         return club;
     }
 
+    public void setClub(Element club) {
+        this.club = club;
+    }
+
     @Override
     public String printInfo(){
         return super.printInfo() +"with " + this.getClub() + " club ";
