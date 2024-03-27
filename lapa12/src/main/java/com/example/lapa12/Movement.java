@@ -1,15 +1,26 @@
 package com.example.lapa12;
 
+import com.example.lapa12.heros.Hilichurl;
 import javafx.animation.AnimationTimer;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Movement {
         boolean goUp, goDown, goRight, goLeft;
         AnimationTimer animationTimer;
-        public void keyPress(Scene scene, Node hero, double x, double y){
+        public void keyPress(Scene scene, Group root, Hilichurl character, double x, double y) throws FileNotFoundException {
 
-            moveHeroTo(x, y,hero);
+            Node hero = new ImageView(new Image(new FileInputStream(character.getImagePath()),150,140, true, true));
+            root.getChildren().add(hero);
+
+            moveHeroTo(x, y, hero);
 
             scene.setOnKeyPressed(keyEvent -> {
                 switch (keyEvent.getCode()){
@@ -37,13 +48,13 @@ public class Movement {
                     if (goRight) dx+=2;
                     if (goLeft) dx-=2;
 
-                    moveHeroBy(dx, dy, hero);
+                    moveHeroBy(dx, dy, hero, character);
                 }
             };
             animationTimer.start();
 
         }
-        private void moveHeroBy(int dx, int dy, Node hero){
+        private void moveHeroBy(int dx, int dy, Node hero, Hilichurl character){
             if (dx==0 && dy==0) return;
 
             double cx = hero.getBoundsInLocal().getWidth()/2;
@@ -51,6 +62,9 @@ public class Movement {
 
             double x = cx + hero.getLayoutX() + dx;
             double y = cy + hero.getLayoutY() + dy;
+
+            character.setX(x);
+            character.setY(y);
 
             moveHeroTo(x, y, hero);
         }

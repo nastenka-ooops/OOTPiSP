@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -44,7 +43,7 @@ public class Main extends Application {
         }
 
         Factory[] factories = new Factory[7];
-        Hilichurls characters = new Hilichurls();
+        Hilichurls hilichurls = new Hilichurls();
 
         Logic logic = new Logic();
         logic.createHilichurlsFactories(factories);
@@ -67,9 +66,9 @@ public class Main extends Application {
         btnSerialize.setOnAction(actionEvent -> {
             try {
                 if (rbJSON.isSelected()){
-                    logic.JSONSerialize(characters);
+                    logic.JSONSerialize(hilichurls);
                 } else {
-                    logic.BINSerialize(characters.hilichurls);
+                    logic.BINSerialize(hilichurls.hilichurls);
                 }
                 scene.getRoot().requestFocus();
             } catch (IOException e) {
@@ -81,15 +80,13 @@ public class Main extends Application {
         btnDeserialize.setOnAction(actionEvent -> {
             try {
                 if (rbJSON.isSelected()) {
-                    characters.hilichurls.addAll(logic.JSONDeserialize().hilichurls);
+                    hilichurls.hilichurls.addAll(logic.JSONDeserialize().hilichurls);
                 } else {
-                    characters.hilichurls.addAll(logic.BINDeserialize());
+                    hilichurls.hilichurls.addAll(logic.BINDeserialize());
                 }
                 for (Hilichurl character :
-                        characters.hilichurls) {
-                    Node currentImage = new ImageView(new Image(new FileInputStream(character.getImagePath()),150,140, true, true));
-                    root.getChildren().add(currentImage);
-                    movement.keyPress(scene, currentImage, character.getX(), character.getY());
+                        hilichurls.hilichurls) {
+                    movement.keyPress(scene,root, character, character.getX(), character.getY());
                     movement.stopTimer();
                 }
                 scene.getRoot().requestFocus();
@@ -99,28 +96,48 @@ public class Main extends Application {
         });
 
         EventHandler<ActionEvent> event = e -> scene.setOnMouseClicked(mouseEvent -> {
+            boolean isShowData = false;
             movement.stopTimer();
             int index=menu.getItems().indexOf((MenuItem)e.getSource());
-            Hilichurl currentCharacter;
-            try {
-                currentCharacter =  factories[index].create();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
+
+            double x = mouseEvent.getX();
+            double y = mouseEvent.getY();
+
+            for (int i = 0; i < hilichurls.hilichurls.size(); i++) {
+                double rightBound = root.getChildren().get(i+1).getBoundsInParent().getMaxX();
+                double leftBound = root.getChildren().get(i+1).getBoundsInParent().getMinX();
+                double bottomBound = root.getChildren().get(i+1).getBoundsInParent().getMaxY();
+                double topBound = root.getChildren().get(i+1).getBoundsInParent().getMinY();
+
+                if (x>=leftBound &&
+                        x<=rightBound &&
+                        y>=topBound &&
+                        y<=bottomBound){
+                    isShowData = true;
+                    System.out.println("нажал на картинку");
+                }
             }
-                double x = mouseEvent.getX();
-                double y = mouseEvent.getY();
+
+            if (!isShowData) {
+                Hilichurl currentCharacter;
+                try {
+                    currentCharacter = factories[index].create();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 currentCharacter.setX(x);
                 currentCharacter.setY(y);
 
-                try{
-                    Node currentImage = new ImageView(new Image(new FileInputStream(currentCharacter.getImagePath()),150,140, true, true));
-                    root.getChildren().add(currentImage);
-                    characters.hilichurls.add(currentCharacter);
-                    movement.keyPress(scene,currentImage, currentCharacter.getX(), currentCharacter.getY());
-                } catch (Exception exception){
+                try {
+                    hilichurls.hilichurls.add(currentCharacter);
+                    movement.keyPress(scene, root, currentCharacter, currentCharacter.getX(), currentCharacter.getY());
+                } catch (Exception exception) {
                     System.out.println("низя так");
                 }
+            }else{
+
+            }
             });
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event);

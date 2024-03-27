@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
-@JsonTypeInfo(/*visible = true,*/ use = JsonTypeInfo.Id.NAME, property="@type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property="@type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value=Hilichurl.class, name="Hilichurl"),
         @JsonSubTypes.Type(value=HilichurlFighter.class, name="HilichurlFighter"),
