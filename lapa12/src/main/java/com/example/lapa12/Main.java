@@ -4,10 +4,12 @@ import com.example.lapa12.factories.Factory;
 import com.example.lapa12.heros.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends Application {
@@ -23,6 +26,9 @@ public class Main extends Application {
     public static final int H = 700;
 
     Hilichurls hilichurls;
+    Factory[] factories;
+
+    String[] typeNames = {"Hilichurl", "Metachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"};
 
     public static void main(String[] args) {
         launch(args);
@@ -34,16 +40,16 @@ public class Main extends Application {
         Movement movement = new Movement();
 
         Menu menu = new Menu("Choose character");
-        MenuItem[] menuItems = new MenuItem[]{new MenuItem("Hilichurl"), new MenuItem("Metachurl"),
-                new MenuItem("Grenadier"), new MenuItem("Shooter"),new MenuItem( "Fighter"),
-                new MenuItem("Lawachurl"),new MenuItem( "Guard")};
-
+        MenuItem[] menuItems = new MenuItem[typeNames.length];
+        for (int i = 0; i < typeNames.length; i++) {
+            menuItems[i] = new MenuItem(typeNames[i]);
+        }
 
         for (MenuItem item : menuItems) {
             menu.getItems().add(item);
         }
 
-        Factory[] factories = new Factory[7];
+        factories = new Factory[7];
         hilichurls = new Hilichurls();
 
         Logic logic = new Logic();
@@ -55,7 +61,7 @@ public class Main extends Application {
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
 
-        HBox controls = new HBox(10,menuBar, rbJSON, btnSerialize, btnDeserialize);
+        HBox controls = new HBox(10, menuBar, rbJSON, btnSerialize, btnDeserialize);
         Group root = new Group(controls);
         Scene scene = new Scene(root, W, H);
 
@@ -64,9 +70,11 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+        rbJSON.setOnAction(actionEvent -> scene.getRoot().requestFocus());
+
         btnSerialize.setOnAction(actionEvent -> {
             try {
-                if (rbJSON.isSelected()){
+                if (rbJSON.isSelected()) {
                     logic.JSONSerialize(hilichurls);
                 } else {
                     logic.BINSerialize(hilichurls.hilichurls);
@@ -87,7 +95,7 @@ public class Main extends Application {
                 }
                 for (Hilichurl character :
                         hilichurls.hilichurls) {
-                    movement.keyPress(scene,root, character, character.getX(), character.getY());
+                    movement.keyPress(scene, root, character, character.getX(), character.getY());
                     movement.stopTimer();
                 }
                 scene.getRoot().requestFocus();
@@ -100,21 +108,21 @@ public class Main extends Application {
             boolean isShowData = false;
             Hilichurl hilichurl = new Hilichurl();
             movement.stopTimer();
-            int index=menu.getItems().indexOf((MenuItem)e.getSource());
+            int index = menu.getItems().indexOf((MenuItem) e.getSource());
 
             double x = mouseEvent.getX();
             double y = mouseEvent.getY();
 
             for (int i = 0; i < hilichurls.hilichurls.size(); i++) {
-                double rightBound = root.getChildren().get(i+1).getBoundsInParent().getMaxX();
-                double leftBound = root.getChildren().get(i+1).getBoundsInParent().getMinX();
-                double bottomBound = root.getChildren().get(i+1).getBoundsInParent().getMaxY();
-                double topBound = root.getChildren().get(i+1).getBoundsInParent().getMinY();
+                double rightBound = root.getChildren().get(i + 1).getBoundsInParent().getMaxX();
+                double leftBound = root.getChildren().get(i + 1).getBoundsInParent().getMinX();
+                double bottomBound = root.getChildren().get(i + 1).getBoundsInParent().getMaxY();
+                double topBound = root.getChildren().get(i + 1).getBoundsInParent().getMinY();
 
-                if (x>=leftBound &&
-                        x<=rightBound &&
-                        y>=topBound &&
-                        y<=bottomBound){
+                if (x >= leftBound &&
+                        x <= rightBound &&
+                        y >= topBound &&
+                        y <= bottomBound) {
                     isShowData = true;
                     hilichurl = hilichurls.hilichurls.get(i);
 
@@ -140,110 +148,72 @@ public class Main extends Application {
                 } catch (Exception exception) {
                     System.out.println("низя так");
                 }
-            }else{
-                createNewWindow(root,hilichurl);
+            } else {
+                createNewWindow(root, hilichurl);
             }
-            });
+        });
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event);
         }
     }
-    private void createNewWindow(Group group, Hilichurl hilichurl){
+
+    private void createNewWindow(Group group, Hilichurl hilichurl) {
         Stage optionsStage = new Stage();
-
-        Label lLevel = new Label("Level");
-        TextField tfLevel = new TextField(String.valueOf(hilichurl.getLevel()));
-        HBox hbLevel = new HBox(5,lLevel,tfLevel);
-        VBox root = new VBox(20, hbLevel);
-
-        ComboBox<Element> cbClub = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
-        ComboBox<Element> cbShield = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
-        ComboBox<Element> cbAxe = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
-        ComboBox<Element> cbShell = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
-        ComboBox<Element> cbSlime = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
-        ComboBox<Element> cbCrossbow = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
-
-
-        if (hilichurl.getName().equals("Fighter") || hilichurl.getName().equals("Guard")){
-            Label lClub = new Label("Club");
-            cbClub.setValue(((HilichurlFighter) hilichurl).getClub());
-            HBox hbClub = new HBox(5,lClub,cbClub);
-            root.getChildren().add(hbClub);
-
-            if (hilichurl.getName().equals("Shield")){
-                Label lShield = new Label("Shield");
-                cbShield.setValue(((HilichurlGuard) hilichurl).getShield());
-                HBox hbShield = new HBox(5,lShield,cbShield);
-                root.getChildren().add(hbShield);
+        int index = 0;
+        for (int i = 0; i < typeNames.length; i++) {
+            if (hilichurl.getName().equals(typeNames[i])) {
+                index = i;
+                break;
             }
         }
-
-        if (hilichurl.getName().equals("Lawachurl") || hilichurl.getName().equals("Mitachurl")){
-            Label lAxe = new Label("Axe");
-            cbAxe.setValue(((Mitachurl) hilichurl).getAxe());
-            HBox hbAxe = new HBox(5,lAxe,cbAxe);
-            root.getChildren().add(hbAxe);
-
-            Label lShield = new Label("Shield");
-            cbShield.setValue(((Mitachurl) hilichurl).getShield());
-            HBox hbShield = new HBox(5,lShield,cbShield);
-            root.getChildren().add(hbShield);
-
-            if (hilichurl.getName().equals("Lawachurl")){
-                Label lShell = new Label("Shell");
-                cbShell.setValue(((Lawachurl) hilichurl).getShell());
-                HBox hbShell = new HBox(5,lShell,cbShell);
-                root.getChildren().add(hbShell);
-            }
-        }
-
-        if (hilichurl.getName().equals("Grenadier")){
-            Label lSlime = new Label("Slime");
-            cbSlime.setValue(((HilichurlGrenadier) hilichurl).getSlime());
-            HBox hbSlime = new HBox(5,lSlime,cbSlime);
-            root.getChildren().add(hbSlime);
-        }
-
-        if (hilichurl.getName().equals("Shooter")){
-            Label lCrossbow = new Label("Crossbow");
-            cbCrossbow.setValue(((HilichurlShooter) hilichurl).getCrossbow());
-            HBox hbCrossbow = new HBox(5,lCrossbow,cbCrossbow);
-            root.getChildren().add(hbCrossbow);
-        }
+        VBox root = factories[index].createWindow(hilichurl);
 
         Button btnChange = new Button("Change");
         Button btnDelete = new Button("Delete");
-        HBox hbButtons=new HBox(30,btnChange, btnDelete);
+        HBox hbButtons = new HBox(30, btnChange, btnDelete);
         hbButtons.setAlignment(Pos.BOTTOM_CENTER);
         root.getChildren().addAll(hbButtons);
 
         btnDelete.setOnAction(actionEvent -> {
-            group.getChildren().remove(hilichurls.hilichurls.indexOf(hilichurl)+1);
-            hilichurls.hilichurls.remove(hilichurl);
-            optionsStage.close();
-            }
+                    group.getChildren().remove(hilichurls.hilichurls.indexOf(hilichurl) + 1);
+                    hilichurls.hilichurls.remove(hilichurl);
+                    optionsStage.close();
+                }
         );
 
+
         btnChange.setOnAction(actionEvent -> {
-            hilichurl.setLevel(Integer.parseInt(tfLevel.getText()));
+
+            ArrayList<Node> controls = new ArrayList<>();
+            for (Node node : root.getChildren()) {
+                if (node instanceof HBox) {
+                    controls.addAll(((HBox) node).getChildren());
+                }
+                System.out.println(controls);
+            }
+            try {
+                hilichurl.setLevel(Integer.parseInt(((TextField) controls.get(1)).getText()));
+            } catch (NumberFormatException e){
+                System.out.println("Invalid level");
+            }
             if (hilichurl.getName().equals("Fighter") || hilichurl.getName().equals("Guard")) {
-                ((HilichurlFighter) hilichurl).setClub(cbClub.getValue());
+                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>)controls.get(3)).getValue());
                 if (hilichurl.getName().equals("Shield")) {
-                    ((HilichurlGuard) hilichurl).setShield(cbShield.getValue());
+                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>)controls.get(5)).getValue());
                 }
             }
             if (hilichurl.getName().equals("Lawachurl") || hilichurl.getName().equals("Mitachurl")) {
-                ((Mitachurl) hilichurl).setAxe(cbAxe.getValue());
-                ((Mitachurl) hilichurl).setShield(cbShield.getValue());
+                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>)controls.get(3)).getValue());
+                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>)controls.get(5)).getValue());
                 if (hilichurl.getName().equals("Lawachurl")) {
-                    ((Lawachurl) hilichurl).setShell(cbShell.getValue());
+                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>)controls.get(7)).getValue());
                 }
             }
             if (hilichurl.getName().equals("Grenadier")) {
-                ((HilichurlGrenadier) hilichurl).setSlime(cbSlime.getValue());
+                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>)controls.get(3)).getValue());
             }
             if (hilichurl.getName().equals("Shooter")) {
-                ((HilichurlShooter) hilichurl).setCrossbow(cbCrossbow.getValue());
+                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>)controls.get(3)).getValue());
             }
             optionsStage.close();
         });
@@ -252,5 +222,6 @@ public class Main extends Application {
         optionsStage.setScene(optionsScene);
         optionsStage.setTitle("Options");
         optionsStage.show();
+
     }
 }

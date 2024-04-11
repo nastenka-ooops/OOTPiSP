@@ -11,18 +11,17 @@ import java.io.Serializable;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property="@type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=Hilichurl.class, name="Hilichurl"),
-        @JsonSubTypes.Type(value=HilichurlFighter.class, name="HilichurlFighter"),
-        @JsonSubTypes.Type(value=HilichurlGrenadier.class, name="HilichurlGrenadier"),
-        @JsonSubTypes.Type(value=HilichurlGuard.class, name="HilichurlGuard"),
-        @JsonSubTypes.Type(value=HilichurlShooter.class, name="HilichurlShooter"),
+        @JsonSubTypes.Type(value=HilichurlFighter.class, name="Fighter"),
+        @JsonSubTypes.Type(value=HilichurlGrenadier.class, name="Grenadier"),
+        @JsonSubTypes.Type(value=HilichurlGuard.class, name="Guard"),
+        @JsonSubTypes.Type(value=HilichurlShooter.class, name="Shooter"),
         @JsonSubTypes.Type(value=Lawachurl.class, name="Lawachurl"),
         @JsonSubTypes.Type(value=Mitachurl.class, name="Mitachurl")
 })
 public class Hilichurl implements Serializable {
     private int level;
     private int XP;
-    int maxXP;
+    private int maxXP;
     private String name;
     @JsonIgnore
     transient private Image image;

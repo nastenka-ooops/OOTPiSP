@@ -13,10 +13,6 @@ public class Lawachurl extends Mitachurl implements Serializable {
     public Lawachurl() {
     }
 
-    public Lawachurl(int level, Element axe, Element shield) throws FileNotFoundException {
-        super(level, axe, shield);
-    }
-
     public Lawachurl(int level, Element axe, Element shield, Element shell) throws FileNotFoundException {
         super(level, axe, shield);
         this.shell = shell;
