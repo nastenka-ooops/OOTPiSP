@@ -3,8 +3,6 @@ package com.example.lapa12;
 import com.example.lapa12.factories.Factory;
 import com.example.lapa12.heros.*;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Application {
     public static final int W = 700;
@@ -66,7 +63,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, W, H);
 
         scene.getRoot().requestFocus();
-        stage.setTitle("lapa1,2");
+        stage.setTitle("lapa 1,2,3");
         stage.setScene(scene);
         stage.show();
 
@@ -85,30 +82,14 @@ public class Main extends Application {
             }
         });
 
-
-        btnDeserialize.setOnAction(actionEvent -> {
-            try {
-                if (rbJSON.isSelected()) {
-                    hilichurls.hilichurls.addAll(logic.JSONDeserialize().hilichurls);
-                } else {
-                    hilichurls.hilichurls.addAll(logic.BINDeserialize());
-                }
-                for (Hilichurl character :
-                        hilichurls.hilichurls) {
-                    movement.keyPress(scene, root, character, character.getX(), character.getY());
-                    movement.stopTimer();
-                }
-                scene.getRoot().requestFocus();
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
         EventHandler<ActionEvent> event = e -> scene.setOnMouseClicked(mouseEvent -> {
             boolean isShowData = false;
             Hilichurl hilichurl = new Hilichurl();
             movement.stopTimer();
-            int index = menu.getItems().indexOf((MenuItem) e.getSource());
+            int index = 0;
+            if (e.getSource() instanceof MenuItem) {
+                index = menu.getItems().indexOf((MenuItem) e.getSource());
+            }
 
             double x = mouseEvent.getX();
             double y = mouseEvent.getY();
@@ -152,9 +133,29 @@ public class Main extends Application {
                 createNewWindow(root, hilichurl);
             }
         });
+
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event);
         }
+
+        btnDeserialize.setOnAction(actionEvent -> {
+            try {
+                if (rbJSON.isSelected()) {
+                    hilichurls.hilichurls.addAll(logic.JSONDeserialize().hilichurls);
+                } else {
+                    hilichurls.hilichurls.addAll(logic.BINDeserialize());
+                }
+                for (Hilichurl character :
+                        hilichurls.hilichurls) {
+                    movement.keyPress(scene, root, character, character.getX(), character.getY());
+                    movement.stopTimer();
+                }
+                scene.getRoot().requestFocus();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            event.handle(actionEvent);
+        });
     }
 
     private void createNewWindow(Group group, Hilichurl hilichurl) {
@@ -183,7 +184,6 @@ public class Main extends Application {
 
 
         btnChange.setOnAction(actionEvent -> {
-
             ArrayList<Node> controls = new ArrayList<>();
             for (Node node : root.getChildren()) {
                 if (node instanceof HBox) {
@@ -193,27 +193,27 @@ public class Main extends Application {
             }
             try {
                 hilichurl.setLevel(Integer.parseInt(((TextField) controls.get(1)).getText()));
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid level");
             }
-            if (hilichurl.getName().equals("Fighter") || hilichurl.getName().equals("Guard")) {
-                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>)controls.get(3)).getValue());
-                if (hilichurl.getName().equals("Shield")) {
-                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>)controls.get(5)).getValue());
+            if (hilichurl instanceof HilichurlFighter) {
+                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>) controls.get(3)).getValue());
+                if (hilichurl instanceof HilichurlGuard) {
+                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(5)).getValue());
                 }
             }
-            if (hilichurl.getName().equals("Lawachurl") || hilichurl.getName().equals("Mitachurl")) {
-                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>)controls.get(3)).getValue());
-                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>)controls.get(5)).getValue());
-                if (hilichurl.getName().equals("Lawachurl")) {
-                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>)controls.get(7)).getValue());
+            if (hilichurl instanceof Mitachurl) {
+                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>) controls.get(3)).getValue());
+                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                if (hilichurl instanceof Lawachurl) {
+                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>) controls.get(7)).getValue());
                 }
             }
-            if (hilichurl.getName().equals("Grenadier")) {
-                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>)controls.get(3)).getValue());
+            if (hilichurl instanceof HilichurlGrenadier) {
+                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>) controls.get(3)).getValue());
             }
-            if (hilichurl.getName().equals("Shooter")) {
-                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>)controls.get(3)).getValue());
+            if (hilichurl instanceof HilichurlShooter) {
+                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>) controls.get(3)).getValue());
             }
             optionsStage.close();
         });
