@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f4b3459c-4f2d-486d-9858-ac160a3b0aef" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../lapa12/.idea/artifacts/lapa12_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lapa12/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../lapa12/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lapa12/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../lapa12/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lapa12/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../lapa12/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lapa12/src/main/java/com/example/lapa12/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lapa12/src/main/java/com/example/lapa12/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lapa12/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lapa12/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lapa12/src/main/resources/com/example/lapa12/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../lapa12/src/main/resources/com/example/lapa12/hello-view.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2f0FTn1yzml87smGEXofLuPtpQH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/madam/IdeaProjects/OOPlease, god, help me/CustomPictures",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.30035335"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f4b3459c-4f2d-486d-9858-ac160a3b0aef" name="Changes" comment="" />
+      <created>1712930099449</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712930099449</updated>
+    </task>
+    <servers />
+  </component>
+</project>
