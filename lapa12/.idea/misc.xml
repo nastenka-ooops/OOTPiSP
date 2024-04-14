@@ -5,6 +5,10 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../plagins/plagin1/pom.xml" />
+        <option value="$PROJECT_DIR$/plugins/pluginDemo/pom.xml" />
+        <option value="$PROJECT_DIR$/../plugins/pluginDemo/pom.xml" />
+        <option value="$PROJECT_DIR$/../CustomPictures/pom.xml" />
       </list>
     </option>
   </component>
