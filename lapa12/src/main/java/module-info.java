@@ -8,6 +8,7 @@ module lapa12 {
 
     exports com.example.lapa12;
     exports com.example.lapa12.heros;
+    exports com.example.lapa12.factories;
 
     uses PluginImplementation;
 

@@ -28,25 +28,30 @@ public class HierarchyExtension implements PluginImplementation {
     }
     public static Group heroes;
     public static Landscapes landscapes;
-    Factory[] factories;
-    public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Bonfire", "Bush"}));
+    Factory[] landscapeFactories;
+    com.example.lapa12.factories.Factory[] hilichurlFactories;
+    public static ArrayList<String> landscapeNames = new ArrayList<>(List.of(new String[]{"Bonfire", "Bush"}));
+    public static ArrayList<String> hilichurlNames = new ArrayList<>(List.of(new String[]{"Shamachurl", "Abyss Mage"}));
     public static ArrayList<String>  imagePaths = new ArrayList<>();
     Logic logic = new Logic();
     @Override
     public void doSmth() {
         System.out.println("extension");
         addNewInterface();
+        extendHierarchy();
         logic.hitHilichurl();
     }
 
     public void addNewInterface(){
-        logic.loadImages();
+        logic.loadLandscapeImages();
+        logic.loadHilichurlImages();
 
+        typeNames.addAll(hilichurlNames);
 
         Menu menu = new Menu("Choose landscape");
-        MenuItem[] menuItems = new MenuItem[typeNames.size()];
-        for (int i = 0; i < typeNames.size(); i++) {
-            menuItems[i] = new MenuItem(typeNames.get(i));
+        MenuItem[] menuItems = new MenuItem[landscapeNames.size()];
+        for (int i = 0; i < landscapeNames.size(); i++) {
+            menuItems[i] = new MenuItem(landscapeNames.get(i));
         }
 
         for (MenuItem item : menuItems) {
@@ -55,10 +60,10 @@ public class HierarchyExtension implements PluginImplementation {
         MenuBar menuBar = new MenuBar(menu);
         controls.getChildren().add(menuBar);
 
-        factories = new Factory[2];
+        landscapeFactories = new Factory[2];
         landscapes = new Landscapes();
 
-        logic.createLandscapesFactories(factories);
+        logic.createLandscapesFactories(landscapeFactories);
 
         heroes = new Group();
         root.getChildren().add(heroes);
@@ -77,7 +82,7 @@ public class HierarchyExtension implements PluginImplementation {
             if (i<0) {
                 Landscape currentLandscape;
                 try {
-                    currentLandscape = factories[index].create(imagePaths.get(index));
+                    currentLandscape = landscapeFactories[index].create(imagePaths.get(index));
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -108,6 +113,19 @@ public class HierarchyExtension implements PluginImplementation {
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event);
         }
+    }
+    public void extendHierarchy(){
+        hilichurlFactories = new com.example.lapa12.factories.Factory[2];
+        for (String typeName : hilichurlNames) {
+            menuItems.add(new MenuItem(typeName));
+        }
+        for (int i = menuItems.size()-hilichurlNames.size(); i < menuItems.size(); i++) {
+            MenuItem item = menuItems.get(i);
+            menu.getItems().add(item);
+        }
+
+        logic.createHilichurlFactories();
+
     }
     private int isShowData(Group heroes, double x, double y){
         for (int i = 0; i < landscapes.landscapes.size(); i++) {

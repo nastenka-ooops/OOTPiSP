@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.lapa12.Main.imagePaths;
+
 public class Logic {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final File BINSerializeFile = new File("ser.bin");
@@ -44,16 +46,30 @@ public class Logic {
         return mapper.readValue(JSONSerializeFile, Hilichurls.class);
     }
 
-    public void createHilichurlsFactories(Factory[] factories){
-        factories[0] = new HilichurlFactory();
-        factories[1] = new MitachurlFactory();
-        factories[2] = new HilichurlGrenadierFactory();
-        factories[3] = new HilichurlShooterFactory();
-        factories[4] = new HilichurlFighterFactory();
-        factories[5] = new LawachurlFactory();
-        factories[6] = new HIlichurlGuardFactory();
+    public void createHilichurlsFactories(ArrayList<Factory> factories){
+        factories.add(new HilichurlFactory());
+        factories.add(new MitachurlFactory());
+        factories.add(new HilichurlGrenadierFactory());
+        factories.add(new HilichurlShooterFactory());
+        factories.add(new HilichurlFighterFactory());
+        factories.add(new LawachurlFactory());
+        factories.add(new HIlichurlGuardFactory());
     }
 
+    public void loadImages(){
+        String folderPath = "images";
+
+        File folder = new File(folderPath);
+        File[] listOfFiles = folder.listFiles();
+
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    imagePaths.add(file.getAbsolutePath());
+                }
+            }
+        }
+    }
     public Hilichurl[] recoverHilichurls(Hilichurl[] hilichurls){
         for (Hilichurl hilichurl :
                 hilichurls) {

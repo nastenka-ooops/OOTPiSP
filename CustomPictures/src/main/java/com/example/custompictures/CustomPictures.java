@@ -32,9 +32,9 @@ public class CustomPictures implements PluginImplementation {
         rbCustomPictures.setOnAction(actionEvent -> {
             scene.getRoot().requestFocus();
             if (rbCustomPictures.isSelected()){
-                offset=0;
+                offset=9;
             } else {
-                offset=8;
+                offset=0;
             }
         });
 

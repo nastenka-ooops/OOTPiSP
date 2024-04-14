@@ -1,1 +1,14 @@
-{"hilichurls":[{"@type":"Fighter","level":56,"name":"Fighter","imagePath":"C:\\Users\\madam\\IdeaProjects\\OOPlease, god, help me\\lapa12\\images\\5.jpg","x":161.33333333333334,"y":425.6666666666667,"club":"GEO","xp":5000},{"@type":"Fighter","level":56,"name":"Fighter","imagePath":"C:\\Users\\madam\\IdeaProjects\\OOPlease, god, help me\\lapa12\\images\\5.jpg","x":563.0,"y":481.6666666666667,"club":"GEO","xp":5000},{"@type":"Grenadier","level":99,"name":"Grenadier","imagePath":"C:\\Users\\madam\\IdeaProjects\\OOPlease, god, help me\\lapa12\\..\\CustomPictures\\images\\3.jpg","x":343.0,"y":184.0,"slime":"HYDRO","xp":10000}]}
+{
+  "hilichurls": [
+    {
+      "@type": "Shamachurl",
+      "level": 99,
+      "name": "Shamachurl",
+      "imagePath": "C:\\Users\\madam\\IdeaProjects\\OOPlease, god, help me\\lapa12\\..\\HierarchyExtension\\images\\hilichurl\\8.jpeg",
+      "x": 400.0,
+      "y": 335.6666666666667,
+      "staff": "ANEMO",
+      "xp": 100
+    }
+  ]
+}

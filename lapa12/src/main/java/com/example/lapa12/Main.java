@@ -30,7 +30,7 @@ public class Main extends Application {
     public static final int H = 700;
 
     public static Hilichurls hilichurls;
-    Factory[] factories;
+    public static ArrayList<Factory> factories;
 
     public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Hilichurl", "Mitachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"}));
     public static ArrayList<String>  imagePaths = new ArrayList<>();
@@ -38,7 +38,9 @@ public class Main extends Application {
     public static Group root;
     public static Scene scene;
     public static Group heroes;
-    public static int offset=8;
+    public static ArrayList<MenuItem> menuItems;
+    public static Menu menu;
+    public static int offset=0;
     public static void main(String[] args) {
         launch(args);
     }
@@ -47,21 +49,22 @@ public class Main extends Application {
     public void start(Stage stage) {
         Movement movement = new Movement();
 
-        Menu menu = new Menu("Choose character");
-        MenuItem[] menuItems = new MenuItem[typeNames.size()];
-        for (int i = 0; i < typeNames.size(); i++) {
-            menuItems[i] = new MenuItem(typeNames.get(i));
+        menu = new Menu("Choose character");
+        menuItems = new ArrayList<>();
+        for (String typeName : typeNames) {
+            menuItems.add(new MenuItem(typeName));
         }
 
         for (MenuItem item : menuItems) {
             menu.getItems().add(item);
         }
 
-        factories = new Factory[7];
+        factories = new ArrayList<>();
         hilichurls = new Hilichurls();
 
         Logic logic = new Logic();
         logic.createHilichurlsFactories(factories);
+        logic.loadImages();
 
         MenuBar menuBar = new MenuBar(menu);
 
@@ -109,7 +112,7 @@ public class Main extends Application {
             if (i<0) {
                 Hilichurl currentCharacter;
                 try {
-                    currentCharacter = factories[index].create(imagePaths.get(index+offset));
+                    currentCharacter = factories.get(index).create(imagePaths.get(index+offset));
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -128,6 +131,8 @@ public class Main extends Application {
                 createNewWindow(heroes, hilichurl);
             }
         });
+
+        loadPlugins();
 
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event);
@@ -152,7 +157,7 @@ public class Main extends Application {
             }
             event.handle(actionEvent);
         });
-        loadPlugins();
+
     }
 
     private int isShowData(Group heroes, double x, double y){
@@ -212,7 +217,7 @@ public class Main extends Application {
                 break;
             }
         }
-        VBox root = factories[index].createWindow(hilichurl);
+        VBox root = factories.get(index).createWindow(hilichurl);
 
         Button btnChange = new Button("Change");
         Button btnDelete = new Button("Delete");
