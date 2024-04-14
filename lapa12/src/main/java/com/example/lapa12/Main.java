@@ -150,9 +150,8 @@ public class Main extends Application {
                     movement.keyPress(scene, heroes, character, character.getX(), character.getY());
                     movement.stopTimer();
                 }
-                System.out.println(heroes.getChildren());
                 scene.getRoot().requestFocus();
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             event.handle(actionEvent);
@@ -264,6 +263,7 @@ public class Main extends Application {
             if (hilichurl instanceof HilichurlShooter) {
                 ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>) controls.get(5)).getValue());
             }
+
             optionsStage.close();
         });
 

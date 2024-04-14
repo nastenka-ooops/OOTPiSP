@@ -30,20 +30,31 @@ public class Logic {
         System.out.println("Well done");
     }
 
-    public ArrayList<Hilichurl> BINDeserialize() throws IOException, ClassNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream(BINSerializeFile);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+    public ArrayList<Hilichurl> BINDeserialize() throws IOException {
+        ArrayList<Hilichurl> characters = new ArrayList<>();
+        try {
+            FileInputStream fileInputStream = new FileInputStream(BINSerializeFile);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-        ArrayList<Hilichurl> characters = (ArrayList<Hilichurl>) objectInputStream.readObject();
+            characters = (ArrayList<Hilichurl>) objectInputStream.readObject();
 
-        objectInputStream.close();
-        System.out.println("Well done");
+            objectInputStream.close();
+            System.out.println("Well done");
+        }catch (ClassNotFoundException e){
+            System.out.println("class that you add from another module not found");
+        }
         return characters;
     }
 
-    public Hilichurls JSONDeserialize() throws IOException {
-        System.out.println("Well done");
-        return mapper.readValue(JSONSerializeFile, Hilichurls.class);
+    public Hilichurls JSONDeserialize() {
+        Hilichurls hilichurls = new Hilichurls();
+        try {
+            hilichurls = mapper.readValue(JSONSerializeFile, Hilichurls.class);
+            System.out.println("Well done");
+        } catch (IOException e){
+            System.out.println("class that you add from another module not found");
+        }
+        return hilichurls;
     }
 
     public void createHilichurlsFactories(ArrayList<Factory> factories){
