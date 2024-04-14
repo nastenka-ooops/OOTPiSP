@@ -27,12 +27,14 @@ public class Logic {
                     for (Landscape landscape :
                             landscapes.landscapes) {
                         landscape.hitHilicurl();
+                        System.out.println("some exception");
                     }
                     lastUpdateTime[0] = currentTime;
                 }
             }
-        };
-        animationTimer.start();
+        }; animationTimer.start();
+
+
     }
     public void loadImages(){
         String folderPath = "../HierarchyExtension/images";

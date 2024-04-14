@@ -32,11 +32,12 @@ public class Main extends Application {
     public static Hilichurls hilichurls;
     Factory[] factories;
 
-    public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Hilichurl", "Metachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"}));
+    public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Hilichurl", "Mitachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"}));
     public static ArrayList<String>  imagePaths = new ArrayList<>();
     public static HBox controls;
     public static Group root;
     public static Scene scene;
+    public static Group heroes;
     public static int offset=8;
     public static void main(String[] args) {
         launch(args);
@@ -69,7 +70,7 @@ public class Main extends Application {
         RadioButton rbJSON = new RadioButton("JSON");
 
         controls = new HBox(10, menuBar, rbJSON, btnSerialize, btnDeserialize);
-        Group heroes = new Group();
+        heroes = new Group();
         root = new Group(controls, heroes);
         scene = new Scene(root, W, H);
 

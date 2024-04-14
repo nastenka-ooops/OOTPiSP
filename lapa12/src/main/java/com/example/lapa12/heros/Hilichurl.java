@@ -30,19 +30,7 @@ public class Hilichurl implements Serializable {
     private double y;
 
     public Hilichurl(int level, String imagePath) throws FileNotFoundException {
-        this.level = level;
-        if (level <= 0) {
-            this.maxXP = 100;
-        } else if (level > 0 && level < 30) {
-            this.maxXP = 1000;
-        } else if (level >= 30 && level < 70) {
-            this.maxXP = 5000;
-        } else if (level >= 70 && level < 100) {
-            this.maxXP = 10000;
-        } else {
-            this.maxXP = 15000;
-        }
-        this.XP= this.maxXP;
+        setLevel(level);
         this.name = "Hilichurl";
         this.imagePath = imagePath;
         this.image = new Image(new FileInputStream(imagePath));
@@ -89,15 +77,15 @@ public class Hilichurl implements Serializable {
     public void setLevel(int level) {
         this.level = level;
         if (level <= 0) {
-            this.maxXP = 100;
+            this.maxXP = 0;
         } else if (level > 0 && level < 30) {
-            this.maxXP = 1000;
+            this.maxXP = 10;
         } else if (level >= 30 && level < 70) {
-            this.maxXP = 5000;
+            this.maxXP = 50;
         } else if (level >= 70 && level < 100) {
-            this.maxXP = 10000;
+            this.maxXP = 100;
         } else {
-            this.maxXP = 15000;
+            this.maxXP = 150;
         }
         this.XP=this.maxXP;
     }
