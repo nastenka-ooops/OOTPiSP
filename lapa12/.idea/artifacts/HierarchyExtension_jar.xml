@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/plugins</output-path>
     <root id="archive" name="HierarchyExtension.jar">
       <element id="module-output" name="HierarchyExtension" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:20" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.16.0" />
     </root>
   </artifact>
 </component>

@@ -21,10 +21,15 @@ public class LawachurlFactory extends Factory{
 
     @Override
     public VBox createWindow(Hilichurl hilichurl) {
+        Label lXP = new Label("XP");
+        TextField tfXP = new TextField(String.valueOf(hilichurl.getXP()));
+        tfXP.setDisable(true);
+        HBox hbXP = new HBox(5,lXP,tfXP);
+
         Label lLevel = new Label("Level");
         TextField tfLevel = new TextField(String.valueOf(hilichurl.getLevel()));
         HBox hbLevel = new HBox(5,lLevel,tfLevel);
-        VBox root = new VBox(20, hbLevel);
+        VBox root = new VBox(20, hbLevel, hbXP);
 
         ComboBox<Element> cbAxe = new ComboBox<>(FXCollections.observableArrayList(Element.values()));
         ComboBox<Element> cbShield = new ComboBox<>(FXCollections.observableArrayList(Element.values()));

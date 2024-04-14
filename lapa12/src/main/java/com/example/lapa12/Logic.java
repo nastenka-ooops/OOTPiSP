@@ -43,18 +43,6 @@ public class Logic {
         System.out.println("Well done");
         return mapper.readValue(JSONSerializeFile, Hilichurls.class);
     }
-    /*public Hilichurl[] createHilichurls(Hilichurl[] hilichurls) throws FileNotFoundException {
-        hilichurls[0] = new Hilichurl(20);
-        hilichurls[1] = new Mitachurl(44, Element.ANEMO, Element.DENDRO);
-        hilichurls[2] = new HilichurlGrenadier(67, Element.ANEMO);
-        hilichurls[3] = new HilichurlShooter(55, Element.ELECTRO);
-        hilichurls[4] = new HilichurlFighter(30, Element.FIRE);
-        hilichurls[5] = new Lawachurl(89, Element.HYDRO, Element.GEO, Element.FIRE);
-        hilichurls[6] = new HilichurlGuard(78, Element.CRIO, Element.GEO);
-
-        return hilichurls;
-
-    }*/
 
     public void createHilichurlsFactories(Factory[] factories){
         factories[0] = new HilichurlFactory();
@@ -64,7 +52,6 @@ public class Logic {
         factories[4] = new HilichurlFighterFactory();
         factories[5] = new LawachurlFactory();
         factories[6] = new HIlichurlGuardFactory();
-
     }
 
     public Hilichurl[] recoverHilichurls(Hilichurl[] hilichurls){

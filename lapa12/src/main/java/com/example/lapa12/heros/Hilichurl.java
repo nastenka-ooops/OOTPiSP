@@ -45,7 +45,7 @@ public class Hilichurl implements Serializable {
         this.XP= this.maxXP;
         this.name = "Hilichurl";
         this.imagePath = imagePath;
-        this.image = new Image(new FileInputStream(imagePath), 200,230, true,true);
+        this.image = new Image(new FileInputStream(imagePath));
     }
 
     public Hilichurl() {
@@ -88,6 +88,18 @@ public class Hilichurl implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
+        if (level <= 0) {
+            this.maxXP = 100;
+        } else if (level > 0 && level < 30) {
+            this.maxXP = 1000;
+        } else if (level >= 30 && level < 70) {
+            this.maxXP = 5000;
+        } else if (level >= 70 && level < 100) {
+            this.maxXP = 10000;
+        } else {
+            this.maxXP = 15000;
+        }
+        this.XP=this.maxXP;
     }
 
     public int getXP() {

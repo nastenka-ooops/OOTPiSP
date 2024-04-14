@@ -5,17 +5,17 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Movement {
         boolean goUp, goDown, goRight, goLeft;
         AnimationTimer animationTimer;
         public void keyPress(Scene scene, Group root, Hilichurl character, double x, double y) throws FileNotFoundException {
-
-            Node hero = new ImageView(character.getImage());
-            //Node hero = new ImageView(new Image(new FileInputStream(character.getImagePath()),200,300, true, true));
+            Node hero = new ImageView(new Image(new FileInputStream(character.getImagePath()), 200, 230, true, true));
             root.getChildren().add(hero);
 
             moveHeroTo(x, y, hero);

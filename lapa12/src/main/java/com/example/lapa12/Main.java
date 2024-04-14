@@ -29,12 +29,13 @@ public class Main extends Application {
     public static final int W = 700;
     public static final int H = 700;
 
-    Hilichurls hilichurls;
+    public static Hilichurls hilichurls;
     Factory[] factories;
 
     public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Hilichurl", "Metachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"}));
     public static ArrayList<String>  imagePaths = new ArrayList<>();
     public static HBox controls;
+    public static Group root;
     public static Scene scene;
     public static int offset=8;
     public static void main(String[] args) {
@@ -66,10 +67,10 @@ public class Main extends Application {
         Button btnSerialize = new Button("Serialize");
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
-        //RadioButton rbCustomPictures = new RadioButton("Custom pictures");
 
         controls = new HBox(10, menuBar, rbJSON, btnSerialize, btnDeserialize);
-        Group root = new Group(controls);
+        Group heroes = new Group();
+        root = new Group(controls, heroes);
         scene = new Scene(root, W, H);
 
         scene.getRoot().requestFocus();
@@ -93,8 +94,7 @@ public class Main extends Application {
         });
 
         EventHandler<ActionEvent> event = e -> scene.setOnMouseClicked(mouseEvent -> {
-            boolean isShowData = false;
-            Hilichurl hilichurl = new Hilichurl();
+            Hilichurl hilichurl;
             movement.stopTimer();
             int index = 0;
             if (e.getSource() instanceof MenuItem) {
@@ -104,25 +104,8 @@ public class Main extends Application {
             double x = mouseEvent.getX();
             double y = mouseEvent.getY();
 
-            for (int i = 0; i < hilichurls.hilichurls.size(); i++) {
-                double rightBound = root.getChildren().get(i + 1).getBoundsInParent().getMaxX();
-                double leftBound = root.getChildren().get(i + 1).getBoundsInParent().getMinX();
-                double bottomBound = root.getChildren().get(i + 1).getBoundsInParent().getMaxY();
-                double topBound = root.getChildren().get(i + 1).getBoundsInParent().getMinY();
-
-                if (x >= leftBound &&
-                        x <= rightBound &&
-                        y >= topBound &&
-                        y <= bottomBound) {
-                    isShowData = true;
-                    hilichurl = hilichurls.hilichurls.get(i);
-
-                    System.out.println("нажал на картинку");
-                    break;
-                }
-            }
-
-            if (!isShowData) {
+            int i = isShowData(heroes, x, y);
+            if (i<0) {
                 Hilichurl currentCharacter;
                 try {
                     currentCharacter = factories[index].create(imagePaths.get(index+offset));
@@ -135,12 +118,13 @@ public class Main extends Application {
 
                 try {
                     hilichurls.hilichurls.add(currentCharacter);
-                    movement.keyPress(scene, root, currentCharacter, currentCharacter.getX(), currentCharacter.getY());
+                    movement.keyPress(scene, heroes, currentCharacter, currentCharacter.getX(), currentCharacter.getY());
                 } catch (Exception exception) {
                     System.out.println("низя так");
                 }
             } else {
-                createNewWindow(root, hilichurl);
+                hilichurl = hilichurls.hilichurls.get(i);
+                createNewWindow(heroes, hilichurl);
             }
         });
 
@@ -157,9 +141,10 @@ public class Main extends Application {
                 }
                 for (Hilichurl character :
                         hilichurls.hilichurls) {
-                    movement.keyPress(scene, root, character, character.getX(), character.getY());
+                    movement.keyPress(scene, heroes, character, character.getX(), character.getY());
                     movement.stopTimer();
                 }
+                System.out.println(heroes.getChildren());
                 scene.getRoot().requestFocus();
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -167,6 +152,24 @@ public class Main extends Application {
             event.handle(actionEvent);
         });
         loadPlugins();
+    }
+
+    private int isShowData(Group heroes, double x, double y){
+        for (int i = 0; i < hilichurls.hilichurls.size(); i++) {
+            double rightBound = heroes.getChildren().get(i).getBoundsInParent().getMaxX();
+            double leftBound = heroes.getChildren().get(i).getBoundsInParent().getMinX();
+            double bottomBound = heroes.getChildren().get(i).getBoundsInParent().getMaxY();
+            double topBound = heroes.getChildren().get(i).getBoundsInParent().getMinY();
+
+            if (x >= leftBound &&
+                    x <= rightBound &&
+                    y >= topBound &&
+                    y <= bottomBound) {
+                System.out.println("нажал на картинку");
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void loadPlugins(){
@@ -217,7 +220,7 @@ public class Main extends Application {
         root.getChildren().addAll(hbButtons);
 
         btnDelete.setOnAction(actionEvent -> {
-                    group.getChildren().remove(hilichurls.hilichurls.indexOf(hilichurl) + 1);
+                    group.getChildren().remove(hilichurls.hilichurls.indexOf(hilichurl));
                     hilichurls.hilichurls.remove(hilichurl);
                     optionsStage.close();
                 }
@@ -230,7 +233,6 @@ public class Main extends Application {
                 if (node instanceof HBox) {
                     controls.addAll(((HBox) node).getChildren());
                 }
-                System.out.println(controls);
             }
             try {
                 hilichurl.setLevel(Integer.parseInt(((TextField) controls.get(1)).getText()));
@@ -238,23 +240,23 @@ public class Main extends Application {
                 System.out.println("Invalid level");
             }
             if (hilichurl instanceof HilichurlFighter) {
-                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>) controls.get(3)).getValue());
+                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>) controls.get(5)).getValue());
                 if (hilichurl instanceof HilichurlGuard) {
-                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(7)).getValue());
                 }
             }
             if (hilichurl instanceof Mitachurl) {
-                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>) controls.get(3)).getValue());
-                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(7)).getValue());
                 if (hilichurl instanceof Lawachurl) {
-                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>) controls.get(7)).getValue());
+                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>) controls.get(9)).getValue());
                 }
             }
             if (hilichurl instanceof HilichurlGrenadier) {
-                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>) controls.get(3)).getValue());
+                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>) controls.get(5)).getValue());
             }
             if (hilichurl instanceof HilichurlShooter) {
-                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>) controls.get(3)).getValue());
+                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>) controls.get(5)).getValue());
             }
             optionsStage.close();
         });
