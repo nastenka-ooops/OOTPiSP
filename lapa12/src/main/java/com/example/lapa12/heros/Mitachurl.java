@@ -2,9 +2,7 @@ package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
@@ -17,13 +15,13 @@ public class Mitachurl extends Hilichurl implements Serializable {
     public Mitachurl() {
     }
 
-    public Mitachurl(int level, Element axe, Element shield) throws FileNotFoundException {
-        super(level);
+    public Mitachurl(int level, Element axe, Element shield, String imagePath) throws FileNotFoundException {
+        super(level,imagePath);
         this.axe = axe;
         this.shield = shield;
         this.setName("Mitachurl");
-        this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
-        this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
+        //  this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
+       // this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
     }
     @Override
     public String printInfo(){

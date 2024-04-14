@@ -1,7 +1,6 @@
 package com.example.lapa12.factories;
 
 import com.example.lapa12.heros.Hilichurl;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -11,8 +10,8 @@ import java.io.FileNotFoundException;
 
 public class HilichurlFactory extends Factory{
     @Override
-    public Hilichurl create() throws FileNotFoundException {
-        return new Hilichurl(100);
+    public Hilichurl create(String imagePath) throws FileNotFoundException {
+        return new Hilichurl(100, imagePath);
     }
 
     @Override

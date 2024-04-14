@@ -1,9 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
-import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
@@ -13,12 +11,12 @@ public class HilichurlGuard extends HilichurlFighter implements Serializable {
     public HilichurlGuard() {
     }
 
-    public HilichurlGuard(int level, Element club, Element shield) throws FileNotFoundException {
-        super(level, club);
+    public HilichurlGuard(int level, Element club, Element shield, String imagePath) throws FileNotFoundException {
+        super(level, club, imagePath);
         this.shield = shield;
         this.setName("Guard");
-        this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
-        this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
+       // this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
+       // this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
     }
 
     public Element getShield() {

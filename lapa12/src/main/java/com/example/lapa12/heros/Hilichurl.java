@@ -29,7 +29,7 @@ public class Hilichurl implements Serializable {
     private double x;
     private double y;
 
-    public Hilichurl(int level) throws FileNotFoundException {
+    public Hilichurl(int level, String imagePath) throws FileNotFoundException {
         this.level = level;
         if (level <= 0) {
             this.maxXP = 100;
@@ -44,8 +44,8 @@ public class Hilichurl implements Serializable {
         }
         this.XP= this.maxXP;
         this.name = "Hilichurl";
-        this.imagePath = "src/main/java/com/example/lapa12/images/"+ this.name +".jpg";
-        this.image = new Image(new FileInputStream(imagePath), 150, 140, true, true);
+        this.imagePath = imagePath;
+        this.image = new Image(new FileInputStream(imagePath), 200,230, true,true);
     }
 
     public Hilichurl() {

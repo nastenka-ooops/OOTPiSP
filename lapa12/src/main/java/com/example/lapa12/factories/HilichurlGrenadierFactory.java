@@ -14,8 +14,8 @@ import java.io.FileNotFoundException;
 
 public class HilichurlGrenadierFactory extends Factory{
     @Override
-    public Hilichurl create() throws FileNotFoundException {
-        return new HilichurlGrenadier(99, Element.HYDRO);
+    public Hilichurl create(String imagePath) throws FileNotFoundException {
+        return new HilichurlGrenadier(99, Element.HYDRO, imagePath);
     }
 
     @Override

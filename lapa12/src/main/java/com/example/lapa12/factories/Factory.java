@@ -6,6 +6,6 @@ import javafx.scene.layout.VBox;
 import java.io.FileNotFoundException;
 
 public abstract class Factory {
-    public abstract Hilichurl create() throws FileNotFoundException;
+    public abstract Hilichurl create(String imagePath) throws FileNotFoundException;
     public abstract VBox createWindow(Hilichurl hilichurl);
 }

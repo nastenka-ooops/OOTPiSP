@@ -1,9 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
-import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
@@ -21,12 +19,12 @@ public class HilichurlFighter extends Hilichurl implements Serializable {
                 "} " + super.toString();
     }
 
-    public HilichurlFighter(int level, Element club) throws FileNotFoundException {
-        super(level);
+    public HilichurlFighter(int level, Element club, String imagePath) throws FileNotFoundException {
+        super(level, imagePath);
         this.club = club;
         this.setName("Fighter");
-        this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
-        this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
+       // this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
+       // this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
     }
 
     public Element getClub() {

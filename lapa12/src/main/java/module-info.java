@@ -1,5 +1,5 @@
-import com.example.lapa12.PluginRealisation;
 import com.example.lapa12.BasicPluginRealisation;
+import com.example.lapa12.PluginRealisation;
 
 module lapa12 {
     requires javafx.controls;

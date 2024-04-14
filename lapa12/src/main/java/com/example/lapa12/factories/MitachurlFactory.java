@@ -4,7 +4,6 @@ import com.example.lapa12.Element;
 import com.example.lapa12.heros.Hilichurl;
 import com.example.lapa12.heros.Mitachurl;
 import javafx.collections.FXCollections;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,8 +14,8 @@ import java.io.FileNotFoundException;
 
 public class MitachurlFactory extends Factory{
     @Override
-    public Hilichurl create() throws FileNotFoundException {
-        return new Mitachurl(79, Element.HYDRO, Element.CRIO);
+    public Hilichurl create(String imagePath) throws FileNotFoundException {
+        return new Mitachurl(79, Element.HYDRO, Element.CRIO, imagePath);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class Logic {
         System.out.println("Well done");
         return mapper.readValue(JSONSerializeFile, Hilichurls.class);
     }
-    public Hilichurl[] createHilichurls(Hilichurl[] hilichurls) throws FileNotFoundException {
+    /*public Hilichurl[] createHilichurls(Hilichurl[] hilichurls) throws FileNotFoundException {
         hilichurls[0] = new Hilichurl(20);
         hilichurls[1] = new Mitachurl(44, Element.ANEMO, Element.DENDRO);
         hilichurls[2] = new HilichurlGrenadier(67, Element.ANEMO);
@@ -54,7 +54,7 @@ public class Logic {
 
         return hilichurls;
 
-    }
+    }*/
 
     public void createHilichurlsFactories(Factory[] factories){
         factories[0] = new HilichurlFactory();

@@ -4,7 +4,6 @@ import com.example.lapa12.Element;
 import com.example.lapa12.heros.Hilichurl;
 import com.example.lapa12.heros.HilichurlFighter;
 import javafx.collections.FXCollections;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,8 +14,8 @@ import java.io.FileNotFoundException;
 
 public class HilichurlFighterFactory extends Factory{
     @Override
-    public Hilichurl create() throws FileNotFoundException {
-        return new HilichurlFighter(56, Element.GEO);
+    public Hilichurl create(String imagePath) throws FileNotFoundException {
+        return new HilichurlFighter(56, Element.GEO, imagePath);
     }
     @Override
     public VBox createWindow(Hilichurl hilichurl) {

@@ -33,35 +33,10 @@ public class Main extends Application {
     Factory[] factories;
 
     String[] typeNames = {"Hilichurl", "Metachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"};
+    public static ArrayList<String>  imagePaths = new ArrayList<>();
 
     public static void main(String[] args) {
-        Path pluginsDir = Paths.get("plugins");
-
-        // Будем искать плагины в папке plugins
-        ModuleFinder pluginsFinder = ModuleFinder.of(pluginsDir);
-
-        List<String> plugins = pluginsFinder
-                .findAll()
-                .stream()
-                .map(ModuleReference::descriptor)
-                .map(ModuleDescriptor::name)
-                .toList();
-        // Создадим конфигурацию, которая выполнит резолюцию указанных модулей (проверит корректность графа зависимостей)
-        Configuration pluginsConfiguration = ModuleLayer
-                .boot()
-                .configuration()
-                .resolve(pluginsFinder, ModuleFinder.of(), plugins);
-
-        // Создадим слой модулей для плагинов
-        ModuleLayer layer = ModuleLayer
-                .boot()
-                .defineModulesWithOneLoader(pluginsConfiguration, ClassLoader.getSystemClassLoader());
-
-        // Найдём все реализации сервиса IService в слое плагинов и в слое Boot
-        List<PluginRealisation> services = PluginRealisation.getServices(layer);
-        for (PluginRealisation service : services) {
-            service.doSmth();
-        }
+        loadPlugins();
         launch(args);
     }
 
@@ -97,7 +72,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, W, H);
 
         scene.getRoot().requestFocus();
-        stage.setTitle("lapa 1,2,3");
+        stage.setTitle("lapa 1,2,3,4");
         stage.setScene(scene);
         stage.show();
 
@@ -149,7 +124,7 @@ public class Main extends Application {
             if (!isShowData) {
                 Hilichurl currentCharacter;
                 try {
-                    currentCharacter = factories[index].create();
+                    currentCharacter = factories[index].create(imagePaths.get(index));
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -190,6 +165,36 @@ public class Main extends Application {
             }
             event.handle(actionEvent);
         });
+    }
+
+    public static void loadPlugins(){
+        Path pluginsDir = Paths.get("plugins");
+
+        // Будем искать плагины в папке plugins
+        ModuleFinder pluginsFinder = ModuleFinder.of(pluginsDir);
+
+        List<String> plugins = pluginsFinder
+                .findAll()
+                .stream()
+                .map(ModuleReference::descriptor)
+                .map(ModuleDescriptor::name)
+                .toList();
+        // Создадим конфигурацию, которая выполнит резолюцию указанных модулей (проверит корректность графа зависимостей)
+        Configuration pluginsConfiguration = ModuleLayer
+                .boot()
+                .configuration()
+                .resolve(pluginsFinder, ModuleFinder.of(), plugins);
+
+        // Создадим слой модулей для плагинов
+        ModuleLayer layer = ModuleLayer
+                .boot()
+                .defineModulesWithOneLoader(pluginsConfiguration, ClassLoader.getSystemClassLoader());
+
+        // Найдём все реализации сервиса IService в слое плагинов и в слое Boot
+        List<PluginRealisation> services = PluginRealisation.getServices(layer);
+        for (PluginRealisation service : services) {
+            service.doSmth();
+        }
     }
 
     private void createNewWindow(Group group, Hilichurl hilichurl) {

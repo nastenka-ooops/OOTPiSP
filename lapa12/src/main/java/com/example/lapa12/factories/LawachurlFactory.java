@@ -5,7 +5,6 @@ import com.example.lapa12.heros.Hilichurl;
 import com.example.lapa12.heros.Lawachurl;
 import com.example.lapa12.heros.Mitachurl;
 import javafx.collections.FXCollections;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,8 +15,8 @@ import java.io.FileNotFoundException;
 
 public class LawachurlFactory extends Factory{
     @Override
-    public Hilichurl create() throws FileNotFoundException {
-        return new Lawachurl(80, Element.ELECTRO, Element.GEO, Element.FIRE);
+    public Hilichurl create(String imagePath) throws FileNotFoundException {
+        return new Lawachurl(80, Element.ELECTRO, Element.GEO, Element.FIRE, imagePath);
     }
 
     @Override
