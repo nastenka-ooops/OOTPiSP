@@ -20,9 +20,7 @@ public class Mitachurl extends Hilichurl implements Serializable {
         this.axe = axe;
         this.shield = shield;
         this.setName("Mitachurl");
-        //  this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
-       // this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
-    }
+       }
     @Override
     public String printInfo(){
         return super.printInfo() + " with " + this.getAxe() + " axe and " + this.getShield()+ " shield";

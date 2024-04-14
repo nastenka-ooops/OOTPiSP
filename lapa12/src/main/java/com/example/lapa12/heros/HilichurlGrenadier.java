@@ -15,9 +15,7 @@ public class HilichurlGrenadier extends Hilichurl implements Serializable {
         super(level, imagePath);
         this.slime = slime;
         this.setName("Grenadier");
-        //this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
-       // this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
-    }
+       }
 
     public Element getSlime() {
         return slime;

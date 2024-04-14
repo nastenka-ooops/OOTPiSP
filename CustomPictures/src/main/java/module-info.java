@@ -1,8 +1,8 @@
-import com.example.custompictures.Main;
-import com.example.lapa12.PluginRealisation;
+import com.example.custompictures.CustomPictures;
+import com.example.lapa12.PluginImplementation;
 
 module com.example.custompictures {
     requires lapa12;
 
-    provides PluginRealisation with Main;
+    provides PluginImplementation with CustomPictures;
 }

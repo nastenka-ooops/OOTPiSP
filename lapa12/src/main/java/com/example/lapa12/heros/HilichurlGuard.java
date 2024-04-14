@@ -15,9 +15,7 @@ public class HilichurlGuard extends HilichurlFighter implements Serializable {
         super(level, club, imagePath);
         this.shield = shield;
         this.setName("Guard");
-       // this.setImagePath("src/main/java/com/example/lapa12/images/" + this.getName() + ".jpg");
-       // this.setImage(new Image(new FileInputStream(getImagePath()), 150, 140, true, true));
-    }
+       }
 
     public Element getShield() {
         return shield;

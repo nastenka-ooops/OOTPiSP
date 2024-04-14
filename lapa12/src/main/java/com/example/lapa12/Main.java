@@ -32,23 +32,23 @@ public class Main extends Application {
     Hilichurls hilichurls;
     Factory[] factories;
 
-    String[] typeNames = {"Hilichurl", "Metachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"};
+    public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Hilichurl", "Metachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"}));
     public static ArrayList<String>  imagePaths = new ArrayList<>();
-
+    public static HBox controls;
+    public static Scene scene;
+    public static int offset=8;
     public static void main(String[] args) {
-        loadPlugins();
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
-
         Movement movement = new Movement();
 
         Menu menu = new Menu("Choose character");
-        MenuItem[] menuItems = new MenuItem[typeNames.length];
-        for (int i = 0; i < typeNames.length; i++) {
-            menuItems[i] = new MenuItem(typeNames[i]);
+        MenuItem[] menuItems = new MenuItem[typeNames.size()];
+        for (int i = 0; i < typeNames.size(); i++) {
+            menuItems[i] = new MenuItem(typeNames.get(i));
         }
 
         for (MenuItem item : menuItems) {
@@ -66,10 +66,11 @@ public class Main extends Application {
         Button btnSerialize = new Button("Serialize");
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
+        //RadioButton rbCustomPictures = new RadioButton("Custom pictures");
 
-        HBox controls = new HBox(10, menuBar, rbJSON, btnSerialize, btnDeserialize);
+        controls = new HBox(10, menuBar, rbJSON, btnSerialize, btnDeserialize);
         Group root = new Group(controls);
-        Scene scene = new Scene(root, W, H);
+        scene = new Scene(root, W, H);
 
         scene.getRoot().requestFocus();
         stage.setTitle("lapa 1,2,3,4");
@@ -124,7 +125,7 @@ public class Main extends Application {
             if (!isShowData) {
                 Hilichurl currentCharacter;
                 try {
-                    currentCharacter = factories[index].create(imagePaths.get(index));
+                    currentCharacter = factories[index].create(imagePaths.get(index+offset));
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -165,6 +166,7 @@ public class Main extends Application {
             }
             event.handle(actionEvent);
         });
+        loadPlugins();
     }
 
     public static void loadPlugins(){
@@ -191,8 +193,8 @@ public class Main extends Application {
                 .defineModulesWithOneLoader(pluginsConfiguration, ClassLoader.getSystemClassLoader());
 
         // Найдём все реализации сервиса IService в слое плагинов и в слое Boot
-        List<PluginRealisation> services = PluginRealisation.getServices(layer);
-        for (PluginRealisation service : services) {
+        List<PluginImplementation> services = PluginImplementation.getServices(layer);
+        for (PluginImplementation service : services) {
             service.doSmth();
         }
     }
@@ -200,8 +202,8 @@ public class Main extends Application {
     private void createNewWindow(Group group, Hilichurl hilichurl) {
         Stage optionsStage = new Stage();
         int index = 0;
-        for (int i = 0; i < typeNames.length; i++) {
-            if (hilichurl.getName().equals(typeNames[i])) {
+        for (int i = 0; i < typeNames.size(); i++) {
+            if (hilichurl.getName().equals(typeNames.get(i))) {
                 index = i;
                 break;
             }
