@@ -32,53 +32,58 @@ public class Main extends Application {
     public static Hilichurls hilichurls;
     public static ArrayList<Factory> factories;
 
-    public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{"Hilichurl", "Mitachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl", "Guard"}));
+    public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{
+            "Hilichurl", "Mitachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl",
+            "Guard"}));
     public static ArrayList<String>  imagePaths = new ArrayList<>();
     public static HBox controls;
     public static Group root;
     public static Scene scene;
     public static Group heroes;
     public static ArrayList<MenuItem> menuItems;
-    public static Menu menu;
+    public static Menu mChooseCharacter;
+    public static Menu mSettings;
     public static int offset=0;
+    public static Logic logic = new Logic();
+    public static Movement movement = new Movement();
     public static void main(String[] args) {
         launch(args);
     }
 
-    @Override
-    public void start(Stage stage) {
-        Movement movement = new Movement();
-
-        menu = new Menu("Choose character");
+    public MenuBar createChooseCharacterMenu(){
+        mChooseCharacter = new Menu("Choose character");
         menuItems = new ArrayList<>();
         for (String typeName : typeNames) {
             menuItems.add(new MenuItem(typeName));
         }
 
         for (MenuItem item : menuItems) {
-            menu.getItems().add(item);
+            mChooseCharacter.getItems().add(item);
         }
+        return new MenuBar(mChooseCharacter);
+    }
+
+    @Override
+    public void start(Stage stage) {
 
         factories = new ArrayList<>();
         hilichurls = new Hilichurls();
 
-        Logic logic = new Logic();
         logic.createHilichurlsFactories(factories);
         logic.loadImages();
-
-        MenuBar menuBar = new MenuBar(menu);
 
         Button btnSerialize = new Button("Serialize");
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
 
-        controls = new HBox(10, menuBar, rbJSON, btnSerialize, btnDeserialize);
+        controls = new HBox(10,  createChooseCharacterMenu(),
+                rbJSON, btnSerialize, btnDeserialize);
         heroes = new Group();
         root = new Group(controls, heroes);
         scene = new Scene(root, W, H);
 
         scene.getRoot().requestFocus();
-        stage.setTitle("lapa 1,2,3,4");
+        stage.setTitle("lapa 1,2,3,4,5");
         stage.setScene(scene);
         stage.show();
 
@@ -102,7 +107,7 @@ public class Main extends Application {
             movement.stopTimer();
             int index = 0;
             if (e.getSource() instanceof MenuItem) {
-                index = menu.getItems().indexOf((MenuItem) e.getSource());
+                index = mChooseCharacter.getItems().indexOf((MenuItem) e.getSource());
             }
 
             double x = mouseEvent.getX();
@@ -112,7 +117,8 @@ public class Main extends Application {
             if (i<0) {
                 Hilichurl currentCharacter;
                 try {
-                    currentCharacter = factories.get(index).create(imagePaths.get(index+offset));
+                    currentCharacter = factories.get(index).create(imagePaths
+                            .get(index+offset));
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -122,7 +128,8 @@ public class Main extends Application {
 
                 try {
                     hilichurls.hilichurls.add(currentCharacter);
-                    movement.keyPress(scene, heroes, currentCharacter, currentCharacter.getX(), currentCharacter.getY());
+                    movement.keyPress(scene, heroes, currentCharacter, currentCharacter
+                            .getX(), currentCharacter.getY());
                 } catch (Exception exception) {
                     System.out.println("низя так");
                 }
@@ -147,7 +154,8 @@ public class Main extends Application {
                 }
                 for (Hilichurl character :
                         hilichurls.hilichurls) {
-                    movement.keyPress(scene, heroes, character, character.getX(), character.getY());
+                    movement.keyPress(scene, heroes, character, character.getX(),
+                            character.getY());
                     movement.stopTimer();
                 }
                 scene.getRoot().requestFocus();
@@ -198,7 +206,8 @@ public class Main extends Application {
         // Создадим слой модулей для плагинов
         ModuleLayer layer = ModuleLayer
                 .boot()
-                .defineModulesWithOneLoader(pluginsConfiguration, ClassLoader.getSystemClassLoader());
+                .defineModulesWithOneLoader(pluginsConfiguration, ClassLoader
+                        .getSystemClassLoader());
 
         // Найдём все реализации сервиса IService в слое плагинов и в слое Boot
         List<PluginImplementation> services = PluginImplementation.getServices(layer);
@@ -240,28 +249,36 @@ public class Main extends Application {
                 }
             }
             try {
-                hilichurl.setLevel(Integer.parseInt(((TextField) controls.get(1)).getText()));
+                hilichurl.setLevel(Integer.parseInt(((TextField) controls.get(1))
+                        .getText()));
             } catch (NumberFormatException e) {
                 System.out.println("Invalid level");
             }
             if (hilichurl instanceof HilichurlFighter) {
-                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                ((HilichurlFighter) hilichurl).setClub((Element) ((ComboBox<?>) controls
+                        .get(5)).getValue());
                 if (hilichurl instanceof HilichurlGuard) {
-                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(7)).getValue());
+                    ((HilichurlGuard) hilichurl).setShield((Element) ((ComboBox<?>)
+                            controls.get(7)).getValue());
                 }
             }
             if (hilichurl instanceof Mitachurl) {
-                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>) controls.get(5)).getValue());
-                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>) controls.get(7)).getValue());
+                ((Mitachurl) hilichurl).setAxe((Element) ((ComboBox<?>) controls.get(5))
+                        .getValue());
+                ((Mitachurl) hilichurl).setShield((Element) ((ComboBox<?>) controls
+                        .get(7)).getValue());
                 if (hilichurl instanceof Lawachurl) {
-                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>) controls.get(9)).getValue());
+                    ((Lawachurl) hilichurl).setShell((Element) ((ComboBox<?>) controls
+                            .get(9)).getValue());
                 }
             }
             if (hilichurl instanceof HilichurlGrenadier) {
-                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                ((HilichurlGrenadier) hilichurl).setSlime((Element) ((ComboBox<?>)
+                        controls.get(5)).getValue());
             }
             if (hilichurl instanceof HilichurlShooter) {
-                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>) controls.get(5)).getValue());
+                ((HilichurlShooter) hilichurl).setCrossbow((Element) ((ComboBox<?>)
+                        controls.get(5)).getValue());
             }
 
             optionsStage.close();
@@ -271,6 +288,5 @@ public class Main extends Application {
         optionsStage.setScene(optionsScene);
         optionsStage.setTitle("Options");
         optionsStage.show();
-
     }
 }

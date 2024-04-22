@@ -25,6 +25,4 @@ public class Logic extends com.example.lapa12.Logic {
         Main.factories.add(new ShamachurlFactory());
         Main.factories.add(new AbyssMageFactory());
     }
-
-
 }

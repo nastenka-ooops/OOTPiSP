@@ -1,5 +1,7 @@
 package com.example.lapa12;
 
-public enum Element {
+import java.io.Serializable;
+
+public enum Element implements Serializable {
     GEO, CRIO, ELECTRO, HYDRO, DENDRO, FIRE, ANEMO
 }
