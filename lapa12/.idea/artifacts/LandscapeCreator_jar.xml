@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="LandscapeCreator:jar">
+    <output-path>$PROJECT_DIR$/plugins</output-path>
+    <root id="archive" name="LandscapeCreator.jar">
+      <element id="module-output" name="LandscapeCreator" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.16.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.16.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.16.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.0" />
+    </root>
+  </artifact>
+</component>
