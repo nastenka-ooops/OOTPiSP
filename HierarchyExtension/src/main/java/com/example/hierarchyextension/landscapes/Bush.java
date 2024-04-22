@@ -27,5 +27,6 @@ public class Bush extends Landscape{
     @Override
     public void hitHilicurl(Hilichurl hilichurl) {
         hilichurl.setXP(hilichurl.getXP() - 10);
+        System.out.println("ударило кустом");
     }
 }

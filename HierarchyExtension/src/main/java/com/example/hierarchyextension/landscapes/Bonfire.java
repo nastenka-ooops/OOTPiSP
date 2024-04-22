@@ -15,6 +15,7 @@ public class Bonfire extends Landscape{
     @Override
     public void hitHilicurl(Hilichurl hilichurl) {
         hilichurl.setXP(hilichurl.getXP() - 30);
+        System.out.println("ударило костром");
     }
 
     public Element getElement() {
