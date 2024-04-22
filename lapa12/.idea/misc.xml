@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/plugins/pluginDemo/pom.xml" />
         <option value="$PROJECT_DIR$/../plugins/pluginDemo/pom.xml" />
         <option value="$PROJECT_DIR$/../CustomPictures/pom.xml" />
+        <option value="$PROJECT_DIR$/../LandscapeCreator/pom.xml" />
+        <option value="$PROJECT_DIR$/../HierarchyExtension/pom.xml" />
       </list>
     </option>
   </component>
