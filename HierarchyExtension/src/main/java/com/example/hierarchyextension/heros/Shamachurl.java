@@ -2,10 +2,13 @@ package com.example.hierarchyextension.heros;
 
 import com.example.lapa12.Element;
 import com.example.lapa12.heros.Hilichurl;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property="@type")
+@JsonSubTypes.Type(value = Shamachurl.class, name = "Shamachurl")
 public class Shamachurl extends Hilichurl implements Serializable {
     private Element staff;
 

@@ -10,6 +10,10 @@
     <file url="file://$PROJECT_DIR$/../HierarchyExtension/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../LandscapeCreator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../LandscapeCreator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../Serialization/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../Serialization/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TransformingXMLintoJSON/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TransformingXMLintoJSON/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../plagins/plagin1/src/main/java" charset="UTF-8" />

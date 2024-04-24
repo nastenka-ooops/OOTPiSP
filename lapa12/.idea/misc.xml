@@ -12,6 +12,8 @@
         <option value="$PROJECT_DIR$/../LandscapeCreator/pom.xml" />
         <option value="$PROJECT_DIR$/../HierarchyExtension/pom.xml" />
         <option value="$PROJECT_DIR$/../Encryption/pom.xml" />
+        <option value="$PROJECT_DIR$/../TransformingXMLintoJSON/pom.xml" />
+        <option value="$PROJECT_DIR$/../Serialization/pom.xml" />
       </list>
     </option>
   </component>

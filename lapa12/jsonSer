@@ -1,0 +1,23 @@
+{"Hilichurls": {"hilichurls": {"hilichurls": [
+    {
+        "level": 56,
+        "imagePath": "C:\\Users\\madam\\IdeaProjects\\OOPlease, god, help me\\lapa12\\images\\5.jpg",
+        "_type": "Fighter",
+        "name": "Fighter",
+        "x": 92.33333333333333,
+        "club": "GEO",
+        "xp": 50,
+        "y": 295.3333333333333
+    },
+    {
+        "shield": "CRIO",
+        "level": 79,
+        "imagePath": "C:\\Users\\madam\\IdeaProjects\\OOPlease, god, help me\\lapa12\\images\\2.jpg",
+        "_type": "Mitachurl",
+        "name": "Mitachurl",
+        "x": 537.6666666666666,
+        "xp": 100,
+        "y": 409,
+        "axe": "HYDRO"
+    }
+]}}}

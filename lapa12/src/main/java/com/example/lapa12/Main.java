@@ -14,8 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
@@ -23,7 +22,10 @@ import java.lang.module.ModuleReference;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Main extends Application {
     public static final int W = 700;
@@ -35,7 +37,7 @@ public class Main extends Application {
     public static ArrayList<String> typeNames = new ArrayList<>(List.of(new String[]{
             "Hilichurl", "Mitachurl", "Grenadier", "Shooter", "Fighter", "Lawachurl",
             "Guard"}));
-    public static ArrayList<String>  imagePaths = new ArrayList<>();
+    public static ArrayList<String> imagePaths = new ArrayList<>();
     public static HBox controls;
     public static Group root;
     public static Scene scene;
@@ -43,14 +45,16 @@ public class Main extends Application {
     public static ArrayList<MenuItem> menuItems;
     public static Menu mChooseCharacter;
     public static Menu mSettings;
-    public static int offset=0;
+    public static int offset = 0;
+    public static boolean isPluginLoad = false;
     public static Logic logic = new Logic();
     public static Movement movement = new Movement();
+
     public static void main(String[] args) {
         launch(args);
     }
 
-    public MenuBar createChooseCharacterMenu(){
+    public MenuBar createChooseCharacterMenu() {
         mChooseCharacter = new Menu("Choose character");
         menuItems = new ArrayList<>();
         for (String typeName : typeNames) {
@@ -64,7 +68,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
 
         factories = new ArrayList<>();
         hilichurls = new Hilichurls();
@@ -76,8 +80,9 @@ public class Main extends Application {
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
 
-        controls = new HBox(10,  createChooseCharacterMenu(),
-                rbJSON, btnSerialize, btnDeserialize);
+        //controls = new HBox(10, createChooseCharacterMenu(),
+        //      rbJSON, btnSerialize, btnDeserialize);
+        controls = new HBox(10, createChooseCharacterMenu());
         heroes = new Group();
         root = new Group(controls, heroes);
         scene = new Scene(root, W, H);
@@ -114,11 +119,11 @@ public class Main extends Application {
             double y = mouseEvent.getY();
 
             int i = isShowData(heroes, x, y);
-            if (i<0) {
+            if (i < 0) {
                 Hilichurl currentCharacter;
                 try {
                     currentCharacter = factories.get(index).create(imagePaths
-                            .get(index+offset));
+                            .get(index + offset));
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -140,6 +145,9 @@ public class Main extends Application {
         });
 
         loadPlugins();
+        if (!isPluginLoad){
+            controls.getChildren().addAll(rbJSON, btnSerialize, btnDeserialize);
+        }
 
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event);
@@ -167,7 +175,7 @@ public class Main extends Application {
 
     }
 
-    private int isShowData(Group heroes, double x, double y){
+    private int isShowData(Group heroes, double x, double y) {
         for (int i = 0; i < hilichurls.hilichurls.size(); i++) {
             double rightBound = heroes.getChildren().get(i).getBoundsInParent().getMaxX();
             double leftBound = heroes.getChildren().get(i).getBoundsInParent().getMinX();
@@ -185,8 +193,50 @@ public class Main extends Application {
         return -1;
     }
 
-    public static void loadPlugins(){
+    public boolean checkPlugins(String jar_path) throws IOException {
+            JarFile jfile = new JarFile(jar_path);
+            Enumeration<JarEntry> entries = jfile.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                System.out.println("entry.name = " + entry.getName());
+                try {
+                    byte[] buffer = new byte[16384];
+                    InputStream is = jfile.getInputStream(entry);
+                    while ((is.read(buffer,0,buffer.length)) != -1){
+                        // Только чтение, которое может вызвать
+                        // SecurityException, если цифровая подпись
+                        // нарушена.
+                    }
+                } catch (SecurityException se) {
+                    System.err.println("SecurityException : " +
+                            se.getMessage());
+                    return false;
+                }
+            }
+            return true;
+        }
+
+    public void loadPlugins() throws IOException {
         Path pluginsDir = Paths.get("plugins");
+        File directory = new File(String.valueOf(pluginsDir.toFile()));
+
+        ArrayList<String> jarFiles = new ArrayList<>();
+        if (directory.isDirectory()) {
+            // Используем FilenameFilter для получения только файлов с расширением .jar
+            FilenameFilter jarFilter = (dir, name) -> name.toLowerCase().endsWith(".jar");
+            jarFiles.addAll(List.of(directory.list(jarFilter)));
+        }
+        for (String jarPath :
+                jarFiles) {
+            boolean isJarFileVerified = checkPlugins("plugins/"+jarPath);
+            if (isJarFileVerified) {
+                System.out.println(jarPath + " is signed");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("plugin "+ jarPath +" is not verified");
+                alert.showAndWait();
+            }
+        }
 
         // Будем искать плагины в папке plugins
         ModuleFinder pluginsFinder = ModuleFinder.of(pluginsDir);
@@ -284,7 +334,7 @@ public class Main extends Application {
             optionsStage.close();
         });
 
-        Scene optionsScene = new Scene(root, 200, 230);
+        Scene optionsScene = new Scene(root, 200, 260);
         optionsStage.setScene(optionsScene);
         optionsStage.setTitle("Options");
         optionsStage.show();

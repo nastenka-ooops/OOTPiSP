@@ -2,13 +2,13 @@ package com.example.encryption;
 
 import com.example.lapa12.PluginImplementation;
 import com.example.lapa12.heros.Hilichurl;
-import com.example.lapa12.heros.Hilichurls;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -30,7 +30,6 @@ public class Encryption implements PluginImplementation {
     Random random = new Random();
     Logic logic = new Logic();
     File encryptFile = new File("../Encryption/encryptFile.txt");
-    File decryptFile;
     @Override
     public void doSmth() {
         System.out.println("encryption");
@@ -51,6 +50,7 @@ public class Encryption implements PluginImplementation {
     }
     public void createEncryptionWindow(){
         Stage encryptionStage = new Stage();
+        FileChooser fcChooseFile = new FileChooser();
 
         Label lP = new Label("  p: ");
         TextField tfP = new TextField();
@@ -160,7 +160,7 @@ public class Encryption implements PluginImplementation {
             try {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-                objectOutputStream.writeObject(Hilichurls.hilichurls);
+                objectOutputStream.writeObject(hilichurls.hilichurls);
                 inputText = byteArrayOutputStream.toByteArray();
                 objectOutputStream.close();
                 byteArrayOutputStream.close();
@@ -185,6 +185,7 @@ public class Encryption implements PluginImplementation {
             }
 
             try {
+                encryptFile = fcChooseFile.showSaveDialog(encryptionStage);
                 FileOutputStream fileOutputStream = new FileOutputStream(encryptFile);
                 for (Integer integer :
                         encryptText) {
@@ -198,6 +199,7 @@ public class Encryption implements PluginImplementation {
         btnDecrypt.setOnAction(event -> {
             encryptText= new ArrayList<>();
             try{
+                encryptFile=fcChooseFile.showOpenDialog(encryptionStage);
                 FileInputStream fileInputStream = new FileInputStream(encryptFile);
                 int temp = fileInputStream.read();
                 while (temp>=0){
@@ -220,18 +222,17 @@ public class Encryption implements PluginImplementation {
                 }
             }
 
-            decryptFile = new File("../Encryption/decryptFile.bin");
             try {
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decryptText);
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
-                Hilichurls.hilichurls.addAll((List<Hilichurl>) objectInputStream.readObject());
+                hilichurls.hilichurls.addAll((List<Hilichurl>) objectInputStream.readObject());
 
                 objectInputStream.close();
                 byteArrayInputStream.close();
 
                 for (Hilichurl character :
-                        Hilichurls.hilichurls) {
+                        hilichurls.hilichurls) {
                     movement.keyPress(scene, heroes, character, character.getX(),
                             character.getY());
                     movement.stopTimer();
