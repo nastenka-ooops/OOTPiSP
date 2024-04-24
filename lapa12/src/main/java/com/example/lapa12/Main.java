@@ -14,13 +14,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -80,8 +84,6 @@ public class Main extends Application {
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
 
-        //controls = new HBox(10, createChooseCharacterMenu(),
-        //      rbJSON, btnSerialize, btnDeserialize);
         controls = new HBox(10, createChooseCharacterMenu());
         heroes = new Group();
         root = new Group(controls, heroes);
@@ -193,30 +195,33 @@ public class Main extends Application {
         return -1;
     }
 
-    public boolean checkPlugins(String jar_path) throws IOException {
-            JarFile jfile = new JarFile(jar_path);
-            Enumeration<JarEntry> entries = jfile.entries();
+    public boolean checkPlugins(String jarFilePath){
+        try (JarFile jarFile = new JarFile(jarFilePath, true)) {
+            Enumeration<JarEntry> entries = jarFile.entries();
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
-                System.out.println("entry.name = " + entry.getName());
-                try {
-                    byte[] buffer = new byte[16384];
-                    InputStream is = jfile.getInputStream(entry);
-                    while ((is.read(buffer,0,buffer.length)) != -1){
-                        // Только чтение, которое может вызвать
-                        // SecurityException, если цифровая подпись
-                        // нарушена.
-                    }
-                } catch (SecurityException se) {
-                    System.err.println("SecurityException : " +
-                            se.getMessage());
-                    return false;
+
+                if (entry.isDirectory()) {
+                    continue;
+                }
+
+                // Чтение файла, чтобы активировать подпись
+                jarFile.getInputStream(entry).readAllBytes();
+
+                Certificate[] certs = entry.getCertificates();
+
+                if (certs != null && certs.length > 0) {
+                    return true;
                 }
             }
-            return true;
+        } catch (IOException e) {
+            System.err.println("Error reading JAR file: " + e.getMessage());
         }
 
-    public void loadPlugins() throws IOException {
+        return false;
+        }
+
+    public void loadPlugins(){
         Path pluginsDir = Paths.get("plugins");
         File directory = new File(String.valueOf(pluginsDir.toFile()));
 
