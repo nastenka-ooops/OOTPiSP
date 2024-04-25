@@ -4,9 +4,12 @@ import com.example.lapa12.Element;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.FileNotFoundException;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Mitachurl extends Hilichurl implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @JsonProperty("axe")
     private Element axe;
     @JsonProperty("shield")

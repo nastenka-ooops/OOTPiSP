@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static com.example.lapa12.Main.*;
@@ -24,9 +23,11 @@ public class Encryption implements PluginImplementation {
     int x;
     int y;
     int g;
-    byte[] inputText;
+    byte[] byteInputText;
+    int[] intInputText;
     ArrayList<Integer> encryptText = new ArrayList<>();
-    byte[] decryptText;
+    byte[] byteDecryptText;
+    int[] intDecryptText;
     Random random = new Random();
     Logic logic = new Logic();
     File encryptFile = new File("../Encryption/encryptFile.txt");
@@ -161,7 +162,8 @@ public class Encryption implements PluginImplementation {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
                 objectOutputStream.writeObject(hilichurls.hilichurls);
-                inputText = byteArrayOutputStream.toByteArray();
+                byteInputText = byteArrayOutputStream.toByteArray();
+                intInputText = logic.fromByteArray2IntArray(byteInputText);
                 objectOutputStream.close();
                 byteArrayOutputStream.close();
             } catch (IOException e){
@@ -174,7 +176,7 @@ public class Encryption implements PluginImplementation {
 
             int randomNumber=0;
 
-            for (byte value : inputText) {
+            for (int value : intInputText) {
                 int a = logic.powerMod(g, k + randomNumber, p);
                 int b = logic.powerModWithMultiply(y, k+randomNumber, value, p);
                 encryptText.add(a);
@@ -186,47 +188,52 @@ public class Encryption implements PluginImplementation {
 
             try {
                 encryptFile = fcChooseFile.showSaveDialog(encryptionStage);
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(encryptFile));
                 FileOutputStream fileOutputStream = new FileOutputStream(encryptFile);
                 for (Integer integer :
                         encryptText) {
-                    fileOutputStream.write(integer);
+                    //fileOutputStream.write(integer);
+                    bufferedWriter.write(integer);
                 }
+                bufferedWriter.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            encryptionStage.close();
         });
 
         btnDecrypt.setOnAction(event -> {
             encryptText= new ArrayList<>();
             try{
                 encryptFile=fcChooseFile.showOpenDialog(encryptionStage);
-                FileInputStream fileInputStream = new FileInputStream(encryptFile);
-                int temp = fileInputStream.read();
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(encryptFile));
+                //FileInputStream fileInputStream = new FileInputStream(encryptFile);
+                int temp = bufferedReader.read();
+                //int temp = fileInputStream.read();
                 while (temp>=0){
                     encryptText.add(temp);
-                    temp = fileInputStream.read();
+                    //temp = fileInputStream.read();
+                    temp = bufferedReader.read();
                 }
-                fileInputStream.close();
-
+                //fileInputStream.close();
+                bufferedReader.close();
             } catch (IOException e){
                 e.printStackTrace();
             }
 
-            decryptText = new byte[encryptText.size()/2];
+            intDecryptText = new int[encryptText.size()/2];
             for (int i = 0; i < encryptText.size(); i+=2) {
-                byte temp = (byte) logic.powerModWithMultiply(encryptText.get(i),-x, encryptText.get(i+1),p);
-                if (temp<0) {
-                    decryptText[i / 2] = (byte) (temp-1);
-                } else {
-                    decryptText[i / 2] = temp;
-                }
+                int temp = logic.powerModWithMultiply(encryptText.get(i),-x, encryptText.get(i+1),p);
+                intDecryptText[i / 2] = temp;
             }
+            byteDecryptText= logic.fromIntArray2ByteArray(intDecryptText);
 
             try {
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decryptText);
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteDecryptText);
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
-                hilichurls.hilichurls.addAll((List<Hilichurl>) objectInputStream.readObject());
+                ArrayList<Hilichurl> characters = (ArrayList<Hilichurl>) objectInputStream.readObject();
+                hilichurls.hilichurls.addAll(characters);
 
                 objectInputStream.close();
                 byteArrayInputStream.close();
@@ -244,7 +251,9 @@ public class Encryption implements PluginImplementation {
                 alert.setContentText("The file could not be decrypted, check that public and private keys are entered" +
                         " correctly");
                 alert.showAndWait();
+                e.printStackTrace();
             }
+            encryptionStage.close();
         });
 
         VBox root = new VBox(10, hbP, btnCalculatePublicKey, hbPrimitiveRoots, hbX, btnEnterPrivateKey,

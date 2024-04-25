@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serial;
 import java.io.Serializable;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property="@type")
@@ -19,6 +20,8 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value=Mitachurl.class, name="Mitachurl")
 })
 public class Hilichurl implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int level;
     private int XP;
     private int maxXP;

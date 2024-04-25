@@ -72,18 +72,29 @@ public class Logic {
         }
         return primitiveRoots;
     }
-    public byte[] fromArrayListOfBytesToArrayOfBytes(ArrayList<Byte> arrayList){
-        byte[] tempArray = new byte[arrayList.size()];
-        for (int i = 0; i < tempArray.length; i++) {
-            tempArray[i]= arrayList.get(i);
+
+    public byte[] fromIntArray2ByteArray(int[] intArray){
+        byte[] byteArray = new byte[intArray.length];
+        for (int i = 0; i < byteArray.length; i++) {
+            byteArray[i] = (byte) intArray[i];
         }
-        return tempArray;
+        return byteArray;
     }
-    public byte[] fromArrayListOfIntegersToArrayOfBytes(ArrayList<Integer> arrayList){
-        byte[] tempArray = new byte[arrayList.size()];
-        for (int i = 0; i < tempArray.length; i++) {
-            tempArray[i]= arrayList.get(i).byteValue();
+    public int[] fromByteArray2IntArray(byte[] byteArray){
+        int[] intArray = new int[byteArray.length];
+        for (int k = 0; k < byteArray.length; k++) {
+            byte b = byteArray[k];
+            int i = 0;
+            byte mask = 1;
+
+            for (int j = 7; j >= 0; j--) {
+                int temp = b & (mask << j);
+                if (temp > 0) {
+                    i ^= temp;
+                }
+            }
+            intArray[k]=i;
         }
-        return tempArray;
+        return intArray;
     }
 }

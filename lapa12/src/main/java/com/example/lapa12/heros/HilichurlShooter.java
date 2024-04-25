@@ -3,9 +3,12 @@ package com.example.lapa12.heros;
 import com.example.lapa12.Element;
 
 import java.io.FileNotFoundException;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class HilichurlShooter extends Hilichurl implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private Element crossbow;
 
     public HilichurlShooter() {
