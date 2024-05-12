@@ -1,6 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
+import com.example.lapa12.visitor.Visitor;
 
 import java.io.FileNotFoundException;
 import java.io.Serial;
@@ -37,5 +38,9 @@ public class Lawachurl extends Mitachurl implements Serializable {
         return "Lawachurl{" +
                 "shell=" + shell +
                 "} " + super.toString();
+    }
+    @Override
+    public void accept(Visitor visitor){
+        visitor.visitLawachurl(this);
     }
 }

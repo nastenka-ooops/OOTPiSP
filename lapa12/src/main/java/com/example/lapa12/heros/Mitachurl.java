@@ -1,6 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
+import com.example.lapa12.visitor.Visitor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.FileNotFoundException;
@@ -51,5 +52,9 @@ public class Mitachurl extends Hilichurl implements Serializable {
                 "axe=" + axe +
                 ", shield=" + shield +
                 "} " + super.toString();
+    }
+    @Override
+    public void accept(Visitor visitor){
+        visitor.visitMitachurl(this);
     }
 }

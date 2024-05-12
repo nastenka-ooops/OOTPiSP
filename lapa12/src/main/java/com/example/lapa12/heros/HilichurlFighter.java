@@ -1,6 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
+import com.example.lapa12.visitor.Visitor;
 
 import java.io.FileNotFoundException;
 import java.io.Serial;
@@ -39,5 +40,9 @@ public class HilichurlFighter extends Hilichurl implements Serializable {
     @Override
     public String printInfo(){
         return super.printInfo() +"with " + this.getClub() + " club ";
+    }
+    @Override
+    public void accept(Visitor visitor){
+        visitor.visitHilichurlFighter(this);
     }
 }

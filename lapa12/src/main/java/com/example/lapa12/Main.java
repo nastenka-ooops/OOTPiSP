@@ -1,7 +1,12 @@
 package com.example.lapa12;
 
+import com.example.lapa12.decorator.CompressionDecorator;
+import com.example.lapa12.decorator.DataSourceDecorator;
+import com.example.lapa12.decorator.EncryptionDecorator;
+import com.example.lapa12.decorator.FileDataSource;
 import com.example.lapa12.factories.Factory;
 import com.example.lapa12.heros.*;
+import com.example.lapa12.visitor.XMLExportVisitor;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,10 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
@@ -32,7 +34,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Main extends Application {
-    public static final int W = 700;
+    public static final int W = 800;
     public static final int H = 700;
 
     public static Hilichurls hilichurls;
@@ -83,8 +85,59 @@ public class Main extends Application {
         Button btnSerialize = new Button("Serialize");
         Button btnDeserialize = new Button("Deserialize");
         RadioButton rbJSON = new RadioButton("JSON");
+        Button btnExportToXML = new Button("Export to XML");
 
-        controls = new HBox(10, createChooseCharacterMenu());
+        btnExportToXML.setOnAction(event -> {
+            String export;
+            try {
+                XMLExportVisitor xmlExportVisitor = new XMLExportVisitor();
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("./XMLExport"));
+                export = xmlExportVisitor.export(hilichurls);
+                bufferedWriter.write(export);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                System.out.println("Well done");
+
+                DataSourceDecorator encrypt = new EncryptionDecorator(new FileDataSource("./encrypt.txt"));
+                encrypt.writeData(export);
+
+                System.out.println("- Input -");
+                System.out.println(export);
+
+                FileDataSource text = new FileDataSource("./encrypt.txt");
+
+                System.out.println("- Encoded -");
+                System.out.println(text.readData());
+
+                System.out.println("\n- Decoded -");
+                System.out.println(encrypt.readData());
+
+                System.out.println();
+
+                DataSourceDecorator compress = new CompressionDecorator(new FileDataSource("./compress.txt"));
+                compress.writeData(export);
+
+                System.out.println("- Input -");
+                System.out.println(export);
+
+                FileDataSource source = new FileDataSource("./compress.txt");
+
+                System.out.println("- Encoded -");
+                System.out.println(source.readData());
+
+                System.out.println("\n- Decoded -");
+                System.out.println(compress.readData());
+
+
+
+                scene.getRoot().requestFocus();
+            } catch (IOException e) {
+                System.out.println("OOP-S");
+                e.printStackTrace();
+            }
+        });
+
+        controls = new HBox(10, createChooseCharacterMenu(), btnExportToXML);
         heroes = new Group();
         root = new Group(controls, heroes);
         scene = new Scene(root, W, H);

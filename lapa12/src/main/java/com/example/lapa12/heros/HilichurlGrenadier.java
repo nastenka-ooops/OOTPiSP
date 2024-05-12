@@ -1,6 +1,7 @@
 package com.example.lapa12.heros;
 
 import com.example.lapa12.Element;
+import com.example.lapa12.visitor.Visitor;
 
 import java.io.FileNotFoundException;
 import java.io.Serial;
@@ -38,5 +39,10 @@ public class HilichurlGrenadier extends Hilichurl implements Serializable {
         return "HilichurlGrenadier{" +
                 "slime=" + slime +
                 "} " + super.toString();
+    }
+
+    @Override
+    public void accept(Visitor visitor){
+        visitor.visitHilichurlGrenadier(this);
     }
 }

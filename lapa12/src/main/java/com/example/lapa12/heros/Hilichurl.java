@@ -1,5 +1,6 @@
 package com.example.lapa12.heros;
 
+import com.example.lapa12.visitor.Visitor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -31,6 +32,10 @@ public class Hilichurl implements Serializable {
     private String imagePath;
     private double x;
     private double y;
+
+    public int getMaxXP() {
+        return maxXP;
+    }
 
     public Hilichurl(int level, String imagePath) throws FileNotFoundException {
         setLevel(level);
@@ -128,5 +133,9 @@ public class Hilichurl implements Serializable {
                 ", x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    public void accept(Visitor visitor){
+        visitor.visitHilichurl(this);
     }
 }
