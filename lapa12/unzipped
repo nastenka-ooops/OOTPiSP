@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HilichurlShooter>
+    <level>55</level>
+    <XP>50</XP>
+    <maxXP>50</maxXP>
+    <name>Shooter</name>
+    <imagePath>C:\Users\madam\IdeaProjects\OOPlease, god, help me\lapa12\images\4.jpg</imagePath>
+    <x>334.3333333333333</x>
+    <y>382.6666666666667</y>
+    <club>ANEMO</club>
+</HilichurlFighter>

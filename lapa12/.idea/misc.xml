@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
@@ -13,6 +14,7 @@
         <option value="$PROJECT_DIR$/../Encryption/pom.xml" />
         <option value="$PROJECT_DIR$/../TransformingXMLintoJSON/pom.xml" />
         <option value="$PROJECT_DIR$/../Serialization/pom.xml" />
+        <option value="$PROJECT_DIR$/../zip-plugin/pom.xml" />
       </list>
     </option>
   </component>
